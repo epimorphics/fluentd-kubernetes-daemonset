@@ -1,0 +1,27 @@
+name: Release docker image
+
+on:
+  push:
+    branches: [ master ]
+  
+jobs:
+
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow --tags
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.BUILD_EPI_EXPT_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.BUILD_EPI_EXPT_AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+    - name: Login to Amazon ECR 
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: publish image
+      run: make release IMAGE_NAME=293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes 
