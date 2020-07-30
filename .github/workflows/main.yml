@@ -24,4 +24,4 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     - name: publish image
-      run: make release IMAGE_NAME=293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes
+      run: make release IMAGE_NAME=293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes-daemonset
