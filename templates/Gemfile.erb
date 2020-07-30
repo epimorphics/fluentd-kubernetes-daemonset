@@ -19,7 +19,7 @@ gem "fluent-plugin-rewrite-tag-filter", "~> 2.2.0"
 <% case target when "elasticsearch6" %>
 gem "elasticsearch", "~> 6.0"
 gem "fluent-plugin-elasticsearch", "~> 4.0.9"
-<% when "elasticsearch7" %>
+<% when "elasticsearch7","s3elasticsearch7" %>
 gem "elasticsearch", "~> 7.0"
 gem "fluent-plugin-elasticsearch", "~> 4.1.1"
 gem "elasticsearch-xpack", "~> 7.0"
@@ -33,7 +33,7 @@ gem "aws-sdk-cloudwatchlogs", "~> 1.0"
 gem "fluent-plugin-cloudwatch-logs", "~> 0.10.0"
 <% when "stackdriver" %>
 gem "fluent-plugin-google-cloud", "~> 0.4.10"
-<% when "s3" %>
+<% when "s3","s3elasticsearch7" %>
 gem "aws-sdk-s3", "~> 1.75"
 gem "fluent-plugin-s3", "~> 1.3.0"
 <% when "gcs" %>

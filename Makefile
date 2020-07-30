@@ -12,21 +12,7 @@
 
 IMAGE_NAME := fluent/fluentd-kubernetes
 ALL_IMAGES := \
-	v1.11/debian-elasticsearch7:v1.11.1-debian-elasticsearch7-1.3,v1.11-debian-elasticsearch7-1,v1-debian-elasticsearch \
-	v1.11/debian-elasticsearch6:v1.11.1-debian-elasticsearch6-1.0,v1.11-debian-elasticsearch6-1 \
-	v1.11/debian-loggly:v1.11.1-debian-loggly-1.0,v1.11-debian-loggly-1 \
-	v1.11/debian-logentries:v1.11.1-debian-logentries-1.0,v1.11-debian-logentries-1 \
-	v1.11/debian-cloudwatch:v1.11.1-debian-cloudwatch-1.1,v1.11-debian-cloudwatch-1 \
-	v1.11/debian-stackdriver:v1.11.1-debian-stackdriver-1.0,v1.11-debian-stackdriver-1 \
-	v1.11/debian-s3:v1.11.1-debian-s3-1.1,v1.11-debian-s3-1 \
-	v1.11/debian-syslog:v1.11.1-debian-syslog-1.0,v1.11-debian-syslog-1 \
-	v1.11/debian-forward:v1.11.1-debian-forward-1.0,v1.11-debian-forward-1 \
-	v1.11/debian-gcs:v1.11.1-debian-gcs-1.0,v1.11-debian-gcs-1 \
-	v1.11/debian-graylog:v1.11.1-debian-graylog-1.0,v1.11-debian-graylog-1 \
-	v1.11/debian-papertrail:v1.11.1-debian-papertrail-1.0,v1.11-debian-papertrail-1 \
-	v1.11/debian-logzio:v1.11.1-debian-logzio-1.0,v1.11-debian-logzio-1 \
-	v1.11/debian-kafka:v1.11.1-debian-kafka-1.0,v1.11-debian-kafka-2 \
-	v1.11/debian-kinesis:v1.11.1-debian-kinesis-1.0,v1.11-debian-kinesis-1
+	v1.11/debian-s3elasticsearch7:v1.11.1-debian-s3elasticsearch7-1.3
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
@@ -63,7 +49,7 @@ eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
 
 no-cache-arg = $(if $(call eq, $(no-cache), yes), --no-cache, $(empty))
 
-image:
+image: src
 	docker build $(no-cache-arg) -t $(IMAGE_NAME):$(VERSION) docker-image/$(DOCKERFILE)
 
 # Tag Docker image with given tags.
