@@ -60,7 +60,10 @@ image: src
 parsed-tags = $(subst $(comma), $(space), $(TAGS))
 
 clean:
-	rm docker-image/$(DOCKERFILE)/conf/*.conf
+	rm -f docker-image/$(DOCKERFILE)/Dockerfile
+	rm -f docker-image/$(DOCKERFILE)/Gemfile
+	rm -f docker-image/$(DOCKERFILE)/Gemfile.lock
+	rm -f docker-image/$(DOCKERFILE)/conf/*.conf
 
 tags:
 	(set -e ; $(foreach tag, $(parsed-tags), \
