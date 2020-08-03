@@ -59,6 +59,9 @@ image: src
 
 parsed-tags = $(subst $(comma), $(space), $(TAGS))
 
+clean:
+	rm docker-image/$(DOCKERFILE)/conf/*.conf
+
 tags:
 	(set -e ; $(foreach tag, $(parsed-tags), \
 		docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):$(tag) ; \
