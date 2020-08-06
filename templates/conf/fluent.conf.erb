@@ -329,15 +329,6 @@
 <% end %>
 
 <% if target == "s3elasticsearch7" %>
-<filter **>
-  @type grep
-
-  <regexp>
-    key $.kubernetes.labels.s3_archive
-    pattern true
-  </regexp>
-</filter>
-
 <match **>
   # docs: https://docs.fluentd.org/v0.12/articles/out_s3
   # note: this configuration relies on the nodes have an IAM instance profile with access to your S3 bucket
