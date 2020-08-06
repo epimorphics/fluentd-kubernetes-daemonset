@@ -8,9 +8,7 @@
 @include kubernetes.conf
 @include conf.d/*.conf
 
-
-
-<% case target when "elasticsearch6","elasticsearch7","s3elasticsearch7" %>
+<% case target when "elasticsearch6","elasticsearch7" %>
 <match **>
    @type elasticsearch
    @id out_es
@@ -21,7 +19,7 @@
    path "#{ENV['FLUENT_ELASTICSEARCH_PATH']}"
    scheme "#{ENV['FLUENT_ELASTICSEARCH_SCHEME'] || 'http'}"
    ssl_verify "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERIFY'] || 'true'}"
-<% if target == "elasticsearch7" or target == "s3elasticsearch7" %>
+<% if target == "elasticsearch7" %>
    ssl_version "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERSION'] || 'TLSv1_2'}"
 <% else %>
    ssl_version "#{ENV['FLUENT_ELASTICSEARCH_SSL_VERSION'] || 'TLSv1'}"
@@ -43,7 +41,7 @@
    template_overwrite "#{ENV['FLUENT_ELASTICSEARCH_TEMPLATE_OVERWRITE'] || use_default}"
    sniffer_class_name "#{ENV['FLUENT_SNIFFER_CLASS_NAME'] || 'Fluent::Plugin::ElasticsearchSimpleSniffer'}"
    request_timeout "#{ENV['FLUENT_ELASTICSEARCH_REQUEST_TIMEOUT'] || '5s'}"
-<% if target == "elasticsearch7" or target == "s3elasticsearch7" %>
+<% if target == "elasticsearch7" %>
    suppress_type_name "#{ENV['FLUENT_ELASTICSEARCH_SUPPRESS_TYPE_NAME'] || 'true'}"
    enable_ilm "#{ENV['FLUENT_ELASTICSEARCH_ENABLE_ILM'] || 'false'}"
    ilm_policy_id "#{ENV['FLUENT_ELASTICSEARCH_ILM_POLICY_ID'] || use_default}"
@@ -328,33 +326,4 @@
   </buffer>
 </match>
 
-<% end %>
-
-<% if target == "s3elasticsearch7" %>
-<match **>
-  @type s3
-  @id out_s3
-  @log_level trace
-  s3_bucket "#{ENV['S3_BUCKET_NAME']}"
-  s3_region "#{ENV['S3_BUCKET_REGION']}"
-  s3_object_key_format logs/${namespace_name}/${app}/%{time_slice}_%{index}.%{file_extension}
-  <format>
-    @type single_value
-    message_key log
-    add_newline false
-  </format>
-  <inject>
-    time_key time
-    tag_key tag
-    localtime false
-  </inject>
-  <buffer tag,time,app,namespace_name>
-    @type file
-    path /var/log/s3
-    flush_at_shutdown true
-    timekey 3600
-    timekey_use_utc true
-    chunk_limit_size 256m
-  </buffer>
-</match>
 <% end %>
