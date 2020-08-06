@@ -8,6 +8,36 @@
 @include kubernetes.conf
 @include conf.d/*.conf
 
+<% if target == "s3elasticsearch7" %>
+<match **>
+  @type s3
+  @id out_s3
+  @log_level trace
+  s3_bucket "#{ENV['S3_BUCKET_NAME']}"
+  s3_region "#{ENV['S3_BUCKET_REGION']}"
+  s3_object_key_format /ogs/${namespace_name}/${app}/%{time_slice}_%{index}.%{file_extension}
+  <format>
+    @type single_value
+    message_key log
+    add_newline false
+  </format>
+  <inject>
+    time_key time
+    tag_key tag
+    localtime false
+  </inject>
+  <buffer tag,time,app,namespace_name>
+    @type file
+    path /var/log/s3
+    flush_at_shutdown true
+    timekey 3600
+    timekey_use_utc true
+    chunk_limit_size 256m
+  </buffer>
+</match>
+<% end %>
+
+
 <% case target when "elasticsearch6","elasticsearch7","s3elasticsearch7" %>
 <match **>
    @type elasticsearch
@@ -328,27 +358,3 @@
 
 <% end %>
 
-<% if target == "s3elasticsearch7" %>
-<match **>
-  # docs: https://docs.fluentd.org/v0.12/articles/out_s3
-  # note: this configuration relies on the nodes have an IAM instance profile with access to your S3 bucket
-  @type s3
-  @id out_s3
-  @log_level info
-  s3_bucket "#{ENV['S3_BUCKET_NAME']}"
-  s3_region "#{ENV['S3_BUCKET_REGION']}"
-  s3_object_key_format %{path}%Y/%m/%d/cluster-log-%{index}.%{file_extension}
-  <inject>
-    time_key time
-    tag_key tag
-    localtime false
-  </inject>
-  <buffer>
-    @type file
-    path /var/log/fluentd-buffers/s3.buffer
-    timekey 3600
-    timekey_use_utc true
-    chunk_limit_size 256m
-  </buffer>
-</match>
-<% end %>
