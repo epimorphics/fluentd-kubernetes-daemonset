@@ -9,17 +9,32 @@
 
 See also dockerhub tags page: https://hub.docker.com/r/fluent/fluentd-kubernetes-daemonset/tags
 <% images = all_images.split(" ") %>
-<% debian = images.select { |i| i.match("debian") } %>
+<% debian_arm64 = images.select { |i| i.match(/debian-.*-arm64/) } %>
+<% debian = images.select { |i| i.match("debian") }.reject { |i| debian_arm64.include?(i) } %>
 <% alpine = images.select { |i| i.match("alpine") } %>
 
 ### Debian
 
 #### Current stable
 
+##### x86_64 images
 <% debian.each do |image| %>
 <% path = image.split(":").first; tags = image.split(":").last %>
-- `<%= tags %>` [docker-image/<%= path %>/Dockerfile](docker-image/<%= path %>/Dockerfile)
+- `<%= tags.split(",").first.split("-")[2].capitalize %>` [Dockerfile](docker-image/<%= path %>/Dockerfile)
+<% tags.split(",").each do |tag| %>
+  - `docker pull fluent/fluentd-kubernetes-daemonset:<%= tag %>`
 <% end %>
+<% end %>
+
+##### arm64 images
+<% debian_arm64.each do |image| %>
+<% path = image.split(":").first; tags = image.split(":").last %>
+- `<%= tags.split(",").first.split("-")[2].capitalize %>` [Dockerfile](docker-image/<%= path %>/Dockerfile)
+<% tags.split(",").each do |tag| %>
+  - `docker pull fluent/fluentd-kubernetes-daemonset:<%= tag %>`
+<% end %>
+<% end %>
+
 
 You can also use `v1-debian-PLUGIN` tag to refer latest v1 image, e.g. `v1-debian-elasticsearch`. On production, strict tag is better to avoid unexpected update.
 
@@ -102,6 +117,7 @@ Each image has following configurations:
 
 - fluent.conf: Destination setting, Elaticsearch, kafka and etc.
 - kubernetes.conf: k8s specific setting. `tail` input for log files and `kubernetes_metadata` filter
+- tail_container_parse.conf: parser setting for `/var/log/containers/*.log`. See also "Use CRI parser for containerd/cri-o" logs section
 - prometheus.conf: prometheus plugin for fluentd monitoring
 - systemd.conf: systemd plugin for collecting systemd-journal log. See also "Disable systemd input" section.
 
@@ -109,6 +125,24 @@ Overwrite conf file via ConfigMap. See also several examples:
 
 - [Cluster-level Logging in Kubernetes with Fluentd](https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a)
 - https://github.com/fluent/fluentd-kubernetes-daemonset/pull/349#issuecomment-579097659
+
+### Use CRI parser for containerd/cri-o logs
+
+This feature is available since v1.12.0-xxx-1.1.
+
+By default, these images use `json` parser for `/var/log/containers/` files because docker generates json formatted logs.
+On the other hand, containerd/cri-o use different log format. To parse such logs, you need to use [`cri` parser](https://github.com/fluent/fluent-plugin-parser-cri) instead.
+
+You can use `cri` parser by overwriting `tail_container_parse.conf` via ConfigMap.
+
+```
+# configuration example
+<parse>
+  @type cri
+</parse>
+```
+
+See also [CRI parser README](https://github.com/fluent/fluent-plugin-parser-cri#log-and-configuration-example)
 
 ### Use FLUENT_CONTAINER_TAIL_EXCLUDE_PATH to exclude specific container logs
 
@@ -160,7 +194,7 @@ oc patch ds fluentd -p "spec:
       - name: fluentd
         securityContext:
           privileged: true"
-oc delete pod -l k8s-app = fluentd-logging
+oc delete pod -l k8s-app=fluentd-logging
 ```
 
 This is from [nekop's japanese article](https://nekop.hatenablog.com/entry/2018/04/20/170257).
@@ -171,11 +205,27 @@ This is from [nekop's japanese article](https://nekop.hatenablog.com/entry/2018/
 
 zookeeper gem doesn't work on Debian 10, so kafka image doesn't include zookeeper gem.
 
+### Windows k8s daemonset not supported in this repository
+
+Maintainers don't have k8s experience on Windows.
+Some users create k8s daemonset on Windows:
+
+- https://github.com/bgsilvait/k8s-fluentd-windows
+- https://github.com/k1nger/fluentd-windows-daemon
+
+Please check them out.
+
+### kafka image suggestion
+
+Using debian-kafka2/debian-kafka2-arm64 images are better than using debian-kafka/debian-kafka-arm64 images.
+Because debian-kafka2/debian-kafka2-arm64 images use `out_kafka2` plugin but debina-kafka/debian-kafka-arm64 images use deprecated `out_kafka_buffered` plugin.
+
+
 ## Maintainers
 
 Some images are contributed by users. If you have a problem/question for following images, ask it to contributors.
 
-- cloudwatch : @so0k
+- azureblob : @elsesiy
 - papertrail : @alexouzounis
 - kafka : @erhudy
 - graylog : @rtnpro
@@ -184,7 +234,8 @@ Some images are contributed by users. If you have a problem/question for followi
 - logz.io : @SaMnCo / @jamielennox
 - splunkhec: @FutureSharks
 
-Currently, we don't accept new destination request. See https://github.com/fluent/fluentd-kubernetes-daemonset/issues/293
+Currently, we don't accept new destination request without contribution.
+See https://github.com/fluent/fluentd-kubernetes-daemonset/issues/293
 
 ### References
 

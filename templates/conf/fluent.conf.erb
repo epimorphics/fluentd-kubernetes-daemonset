@@ -34,6 +34,7 @@
    logstash_dateformat "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_DATEFORMAT'] || '%Y.%m.%d'}"
    logstash_format "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_FORMAT'] || 'true'}"
    index_name "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_INDEX_NAME'] || 'logstash'}"
+   target_index_key "#{ENV['FLUENT_ELASTICSEARCH_TARGET_INDEX_KEY'] || use_nil}"
    type_name "#{ENV['FLUENT_ELASTICSEARCH_LOGSTASH_TYPE_NAME'] || 'fluentd'}"
    include_timestamp "#{ENV['FLUENT_ELASTICSEARCH_INCLUDE_TIMESTAMP'] || 'false'}"
    template_name "#{ENV['FLUENT_ELASTICSEARCH_TEMPLATE_NAME'] || use_nil}"
@@ -41,6 +42,7 @@
    template_overwrite "#{ENV['FLUENT_ELASTICSEARCH_TEMPLATE_OVERWRITE'] || use_default}"
    sniffer_class_name "#{ENV['FLUENT_SNIFFER_CLASS_NAME'] || 'Fluent::Plugin::ElasticsearchSimpleSniffer'}"
    request_timeout "#{ENV['FLUENT_ELASTICSEARCH_REQUEST_TIMEOUT'] || '5s'}"
+   application_name "#{ENV['FLUENT_ELASTICSEARCH_APPLICATION_NAME'] || use_default}"
 <% if target == "elasticsearch7" %>
    suppress_type_name "#{ENV['FLUENT_ELASTICSEARCH_SUPPRESS_TYPE_NAME'] || 'true'}"
    enable_ilm "#{ENV['FLUENT_ELASTICSEARCH_ENABLE_ILM'] || 'false'}"
@@ -93,7 +95,7 @@
   @log_level info
   s3_bucket "#{ENV['S3_BUCKET_NAME']}"
   s3_region "#{ENV['S3_BUCKET_REGION']}"
-  s3_object_key_format %{path}%Y/%m/%d/cluster-log-%{index}.%{file_extension}
+  s3_object_key_format "#{ENV['S3_OBJECT_KEY_FORMAT'] || '%{path}%Y/%m/%d/cluster-log-%{index}.%{file_extension}'}"
   <inject>
     time_key time
     tag_key tag
@@ -102,9 +104,9 @@
   <buffer>
     @type file
     path /var/log/fluentd-buffers/s3.buffer
-    timekey 3600
+    timekey "#{ENV['S3_TIMEKEY'] || '3600'}"
     timekey_use_utc true
-    chunk_limit_size 256m
+    chunk_limit_size "#{ENV['S3_CHUNK_LIMIT_SIZE'] || '256m'}"
   </buffer>
 </match>
 <%  when "gcs"%>
@@ -148,10 +150,39 @@
   # Use multiple threads for processing.
   num_threads 2
 </match>
+<% when "azureblob"%>
+<match **>
+  @type azure-storage-append-blob
+  @id out_azure_storage_append_blob
+
+  azure_cloud                     "#{ENV['AZUREBLOB_AZURE_CLOUD']}"
+  azure_storage_account           "#{ENV['AZUREBLOB_ACCOUNT_NAME']}"
+  azure_storage_access_key        "#{ENV['AZUREBLOB_ACCOUNT_KEY']}"
+  azure_storage_connection_string "#{ENV['AZUREBLOB_CONNECTION_STRING']}"
+  azure_storage_sas_token         "#{ENV['AZUREBLOB_SAS_TOKEN']}"
+  azure_container                 "#{ENV['AZUREBLOB_CONTAINER']}"
+  azure_imds_api_version          "#{ENV['AZUREBLOB_IMDS_API_VERSION']}"
+  azure_token_refresh_interval    "#{ENV['AZUREBLOB_TOKEN_REFRESH_INTERVAL']}"
+  auto_create_container           true
+  path                            "#{ENV['AZUREBLOB_LOG_PATH']}"
+  azure_object_key_format         %{path}%{time_slice}_%{index}.log
+  time_slice_format               %Y%m%d-%H
+  # if you want to use %{tag} or %Y/%m/%d/ like syntax in path / azure_blob_name_format,
+  # need to specify tag for %{tag} and time for %Y/%m/%d in <buffer> argument.
+  <buffer>
+    @type file
+    path /var/log/fluent/azurestorageappendblob
+    timekey 60 # 1 minute
+    timekey_wait 60
+    timekey_use_utc true # use utc
+    chunk_limit_size 256m
+  </buffer>
+</match>
 <% when "graylog"%>
 # The gelf plugin assumes input in utf-8
 <filter **>
   @type record_modifier
+  @id graylog_encode_utf8
   char_encoding utf-8
 </filter>
 
@@ -246,10 +277,40 @@
   max_send_limit_bytes "#{ENV['FLUENT_KAFKA_MAX_SEND_LIMIT_BYTES'] || nil}"
   discard_kafka_delivery_failed "#{ENV['FLUENT_KAFKA_DISCARD_KAFKA_DELIVERY_FAILED'] || false}"
 </match>
+<% when "kafka2" %>
+<match **>
+  @type kafka2
+  @id out_kafka2
 
+  brokers "#{ENV['FLUENT_KAFKA2_BROKERS']}"
+
+  default_topic "#{ENV['FLUENT_KAFKA2_DEFAULT_TOPIC'] || nil}"
+  default_partition_key "#{ENV['FLUENT_KAFKA2_DEFAULT_PARTITION_KEY'] || nil}"
+  default_message_key "#{ENV['FLUENT_KAFKA2_DEFAULT_MESSAGE_KEY'] || nil}"
+  exclude_topic_key "#{ENV['FLUENT_KAFKA2_EXCLUDE_TOPIC_KEY'] || false}"
+  exclude_partition_key "#{ENV['FLUENT_KAFKA2_EXCLUDE_PARTITION_KEY'] || false}"
+  get_kafka_client_log "#{ENV['FLUENT_KAFKA2_GET_KAFKA_CLIENT_LOG'] || false}"
+  <format>
+    @type "#{ENV['FLUENT_KAFKA2_OUTPUT_FORMAT_TYPE'] || 'json'}"
+  </format>
+  <inject>
+    tag_key "#{ENV['FLUENT_KAFKA2_OUTPUT_TAG_KEY'] || use_nil}"
+    time_key "#{ENV['FLUENT_KAFKA2_OUTPUT_TIME_KEY'] || use_nil}"
+  </inject>
+
+  # ruby-kafka producer options
+  max_send_retries "#{ENV['FLUENT_KAFKA2_MAX_SEND_RETRIES'] || 1}"
+  required_acks "#{ENV['FLUENT_KAFKA2_REQUIRED_ACKS'] || -1}"
+  ack_timeout "#{ENV['FLUENT_KAFKA2_ACK_TIMEOUT'] || nil}"
+  compression_codec "#{ENV['FLUENT_KAFKA2_COMPRESSION_CODEC'] || nil}"
+  max_send_limit_bytes "#{ENV['FLUENT_KAFKA2_MAX_SEND_LIMIT_BYTES'] || nil}"
+  discard_kafka_delivery_failed "#{ENV['FLUENT_KAFKA2_DISCARD_KAFKA_DELIVERY_FAILED'] || false}"
+</match>
 <% when "splunkhec" %>
 <match **>
   @type splunk_hec
+  @id out_splunk_hec
+
   host "#{ENV['FLUENT_SPLUNK_HEC_HOST'] || nil}"
   port "#{ENV['FLUENT_SPLUNK_HEC_PORT'] || '8089'}"
   token "#{ENV['FLUENT_SPLUNK_HEC_TOKEN'] || nil}"

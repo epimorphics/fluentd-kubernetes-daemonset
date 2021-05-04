@@ -11,10 +11,49 @@
 #	make release-all
 
 IMAGE_NAME := fluent/fluentd-kubernetes
-ALL_IMAGES := \
-	v1.11/debian-s3elasticsearch7:v1.11.1-debian-s3elasticsearch7-1.3
+X86_IMAGES := \
+	v1.12/debian-azureblob:v1.12.3-debian-azureblob-1.0,v1.12-debian-azureblob-1 \
+	v1.12/debian-elasticsearch7:v1.12.3-debian-elasticsearch7-1.0,v1.12-debian-elasticsearch7-1,v1-debian-elasticsearch \
+	v1.12/debian-elasticsearch6:v1.12.3-debian-elasticsearch6-1.0,v1.12-debian-elasticsearch6-1 \
+	v1.12/debian-loggly:v1.12.3-debian-loggly-1.0,v1.12-debian-loggly-1 \
+	v1.12/debian-logentries:v1.12.3-debian-logentries-1.0,v1.12-debian-logentries-1 \
+	v1.12/debian-cloudwatch:v1.12.3-debian-cloudwatch-1.3,v1.12-debian-cloudwatch-1 \
+	v1.12/debian-stackdriver:v1.12.3-debian-stackdriver-1.0,v1.12-debian-stackdriver-1 \
+	v1.12/debian-s3:v1.12.3-debian-s3-1.0,v1.12-debian-s3-1 \
+	v1.12/debian-syslog:v1.12.3-debian-syslog-1.0,v1.12-debian-syslog-1 \
+	v1.12/debian-forward:v1.12.3-debian-forward-1.0,v1.12-debian-forward-1 \
+	v1.12/debian-gcs:v1.12.3-debian-gcs-1.0,v1.12-debian-gcs-1 \
+	v1.12/debian-graylog:v1.12.3-debian-graylog-1.0,v1.12-debian-graylog-1 \
+	v1.12/debian-papertrail:v1.12.3-debian-papertrail-1.0,v1.12-debian-papertrail-1 \
+	v1.12/debian-logzio:v1.12.3-debian-logzio-1.0,v1.12-debian-logzio-1 \
+	v1.12/debian-kafka:v1.12.3-debian-kafka-1.0,v1.12-debian-kafka-1 \
+	v1.12/debian-kafka2:v1.12.3-debian-kafka2-1.0,v1.12-debian-kafka2-1 \
+	v1.12/debian-kinesis:v1.12.3-debian-kinesis-1.0,v1.12-debian-kinesis-1
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
+
+ARM64_IMAGES := \
+	v1.12/arm64/debian-azureblob:v1.12.3-debian-azureblob-arm64-1.0,v1.12-debian-azureblob-arm64-1 \
+	v1.12/arm64/debian-elasticsearch7:v1.12.3-debian-elasticsearch7-arm64-1.0,v1.12-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
+	v1.12/arm64/debian-elasticsearch6:v1.12.3-debian-elasticsearch6-arm64-1.0,v1.12-debian-elasticsearch6-arm64-1 \
+	v1.12/arm64/debian-loggly:v1.12.3-debian-loggly-arm64-1.0,v1.12-debian-loggly-arm64-1 \
+	v1.12/arm64/debian-logentries:v1.12.3-debian-logentries-arm64-1.0,v1.12-debian-logentries-arm64-1 \
+	v1.12/arm64/debian-cloudwatch:v1.12.3-debian-cloudwatch-arm64-1.0,v1.12-debian-cloudwatch-arm64-1 \
+	v1.12/arm64/debian-stackdriver:v1.12.3-debian-stackdriver-arm64-1.0,v1.12-debian-stackdriver-arm64-1 \
+	v1.12/arm64/debian-s3:v1.12.3-debian-s3-arm64-1.0,v1.12-debian-s3-arm64-1 \
+	v1.12/arm64/debian-syslog:v1.12.3-debian-syslog-arm64-1.0,v1.12-debian-syslog-arm64-1 \
+	v1.12/arm64/debian-forward:v1.12.3-debian-forward-arm64-1.0,v1.12-debian-forward-arm64-1 \
+	v1.12/arm64/debian-gcs:v1.12.3-debian-gcs-arm64-1.0,v1.12-debian-gcs-arm64-1 \
+	v1.12/arm64/debian-graylog:v1.12.3-debian-graylog-arm64-1.0,v1.12-debian-graylog-arm64-1 \
+	v1.12/arm64/debian-papertrail:v1.12.3-debian-papertrail-arm64-1.0,v1.12-debian-papertrail-arm64-1 \
+	v1.12/arm64/debian-logzio:v1.12.3-debian-logzio-arm64-1.0,v1.12-debian-logzio-arm64-1 \
+	v1.12/arm64/debian-kafka:v1.12.3-debian-kafka-arm64-1.0,v1.12-debian-kafka-arm64-1 \
+	v1.12/arm64/debian-kafka2:v1.12.3-debian-kafka2-arm64-1.0,v1.12-debian-kafka2-arm64-1 \
+	v1.12/arm64/debian-kinesis:v1.12.3-debian-kinesis-arm64-1.0,v1.12-debian-kinesis-arm64-1
+
+# ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
+ALL_IMAGES := \
+	v1.12/debian-s3elasticsearch7:v1.12.3-debian-s3elasticsearch7-1.0
 
 comma := ,
 empty :=
@@ -109,7 +148,7 @@ release-all:
 # Usage:
 #	make src [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
 
-src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook entrypoint.sh
+src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh
 
 # Generate sources for all supported Docker images.
 #
@@ -152,7 +191,7 @@ gemfile:
 			version='$(VERSION)' \
 		/Gemfile.erb > docker-image/$(DOCKERFILE)/Gemfile
 	docker run --rm -i -v $(PWD)/docker-image/$(DOCKERFILE)/Gemfile:/Gemfile:ro \
-		ruby:alpine sh -c "apk add --no-cache --quiet git && bundle lock --print" > docker-image/${DOCKERFILE}/Gemfile.lock
+		ruby:alpine sh -c "apk add --no-cache --quiet git && bundle lock --print --remove-platform x86_64-linux-musl --add-platform ruby" > docker-image/${DOCKERFILE}/Gemfile.lock
 
 # Generate entrypoint.sh from template.
 #
@@ -193,6 +232,7 @@ kubernetes.conf:
 			dockerfile='$(DOCKERFILE)' \
 			version='$(VERSION)' \
 		/kubernetes.conf.erb > docker-image/$(DOCKERFILE)/conf/kubernetes.conf
+	cp $(PWD)/templates/conf/tail_container_parse.conf docker-image/$(DOCKERFILE)/conf
 
 systemd.conf:
 	mkdir -p docker-image/$(DOCKERFILE)/conf
@@ -225,6 +265,40 @@ plugins:
 	mkdir -p docker-image/$(DOCKERFILE)/plugins
 	cp -R plugins/$(FLUENTD_VERSION)/shared/. docker-image/$(DOCKERFILE)/plugins/
 	cp -R plugins/$(FLUENTD_VERSION)/$(TARGET)/. docker-image/$(DOCKERFILE)/plugins/
+
+# Create `post_checkout` Docker Hub hook.
+#
+# When Docker Hub triggers automated build, the `post_checkout` hook is called
+# after the Git repo is checked out. This can be used to set up prerequisites
+# for, for example, cross-platform builds.
+# See details:
+# https://docs.docker.com/docker-cloud/builds/advanced/#build-hook-examples
+#
+# Usage:
+#	make post-checkout-hook [DOCKERFILE=]
+
+post-checkout-hook:
+	if [ -n "$(findstring /arm64/,$(DOCKERFILE))" ]; then \
+		mkdir -p $(DOCKERFILE)/hooks; \
+		docker run --rm -i -v $(PWD)/templates/post_checkout.erb:/post_checkout.erb:ro \
+			ruby:alpine erb -U \
+				dockerfile='$(DOCKERFILE)' \
+			/post_checkout.erb > docker-image/$(DOCKERFILE)/hooks/post_checkout ; \
+	fi
+
+
+# Create `post_push` Docker Hub hook for all supported Docker images.
+#
+# Usage:
+#	make post-checkout-hook-all
+
+post-checkout-hook-all:
+	(set -e ; $(foreach img,$(ALL_IMAGES), \
+		make post-checkout-hook \
+			DOCKERFILE=$(word 1,$(subst :, ,$(img))) ; \
+	))
+
+
 
 # Create `post_push` Docker Hub hook.
 #
@@ -344,4 +418,5 @@ post-push-hook-all:
         kubernetes.conf kubernetes.conf-all\
         plugins plugins-all \
         post-push-hook post-push-hook-all \
+        post-checkout-hook post-checkout-hook-all \
 	README.md
