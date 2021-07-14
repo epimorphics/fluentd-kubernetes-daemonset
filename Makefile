@@ -12,48 +12,48 @@
 
 IMAGE_NAME := fluent/fluentd-kubernetes
 X86_IMAGES := \
-	v1.12/debian-azureblob:v1.12.3-debian-azureblob-1.0,v1.12-debian-azureblob-1 \
-	v1.12/debian-elasticsearch7:v1.12.3-debian-elasticsearch7-1.0,v1.12-debian-elasticsearch7-1,v1-debian-elasticsearch \
-	v1.12/debian-elasticsearch6:v1.12.3-debian-elasticsearch6-1.0,v1.12-debian-elasticsearch6-1 \
-	v1.12/debian-loggly:v1.12.3-debian-loggly-1.0,v1.12-debian-loggly-1 \
-	v1.12/debian-logentries:v1.12.3-debian-logentries-1.0,v1.12-debian-logentries-1 \
-	v1.12/debian-cloudwatch:v1.12.3-debian-cloudwatch-1.3,v1.12-debian-cloudwatch-1 \
-	v1.12/debian-stackdriver:v1.12.3-debian-stackdriver-1.0,v1.12-debian-stackdriver-1 \
-	v1.12/debian-s3:v1.12.3-debian-s3-1.0,v1.12-debian-s3-1 \
-	v1.12/debian-syslog:v1.12.3-debian-syslog-1.0,v1.12-debian-syslog-1 \
-	v1.12/debian-forward:v1.12.3-debian-forward-1.0,v1.12-debian-forward-1 \
-	v1.12/debian-gcs:v1.12.3-debian-gcs-1.0,v1.12-debian-gcs-1 \
-	v1.12/debian-graylog:v1.12.3-debian-graylog-1.0,v1.12-debian-graylog-1 \
-	v1.12/debian-papertrail:v1.12.3-debian-papertrail-1.0,v1.12-debian-papertrail-1 \
-	v1.12/debian-logzio:v1.12.3-debian-logzio-1.0,v1.12-debian-logzio-1 \
-	v1.12/debian-kafka:v1.12.3-debian-kafka-1.0,v1.12-debian-kafka-1 \
-	v1.12/debian-kafka2:v1.12.3-debian-kafka2-1.0,v1.12-debian-kafka2-1 \
-	v1.12/debian-kinesis:v1.12.3-debian-kinesis-1.0,v1.12-debian-kinesis-1
+	v1.13/debian-azureblob:v1.13.2-debian-azureblob-amd64-1.0,v1.13-debian-azureblob-amd64-1 \
+	v1.13/debian-elasticsearch7:v1.13.2-debian-elasticsearch7-amd64-1.0,v1.13-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
+	v1.13/debian-elasticsearch6:v1.13.2-debian-elasticsearch6-amd64-1.0,v1.13-debian-elasticsearch6-amd64-1 \
+	v1.13/debian-loggly:v1.13.2-debian-loggly-amd64-1.0,v1.13-debian-loggly-amd64-1 \
+	v1.13/debian-logentries:v1.13.2-debian-logentries-amd64-1.0,v1.13-debian-logentries-amd64-1 \
+	v1.13/debian-cloudwatch:v1.13.2-debian-cloudwatch-amd64-1.0,v1.13-debian-cloudwatch-amd64-1 \
+	v1.13/debian-stackdriver:v1.13.2-debian-stackdriver-amd64-1.0,v1.13-debian-stackdriver-amd64-1 \
+	v1.13/debian-s3:v1.13.2-debian-s3-amd64-1.0,v1.13-debian-s3-amd64-1 \
+	v1.13/debian-syslog:v1.13.2-debian-syslog-amd64-1.0,v1.13-debian-syslog-amd64-1 \
+	v1.13/debian-forward:v1.13.2-debian-forward-amd64-1.0,v1.13-debian-forward-amd64-1 \
+	v1.13/debian-gcs:v1.13.2-debian-gcs-amd64-1.0,v1.13-debian-gcs-amd64-1 \
+	v1.13/debian-graylog:v1.13.2-debian-graylog-amd64-1.0,v1.13-debian-graylog-amd64-1 \
+	v1.13/debian-papertrail:v1.13.2-debian-papertrail-amd64-1.0,v1.13-debian-papertrail-amd64-1 \
+	v1.13/debian-logzio:v1.13.2-debian-logzio-amd64-1.0,v1.13-debian-logzio-amd64-1 \
+	v1.13/debian-kafka:v1.13.2-debian-kafka-amd64-1.0,v1.13-debian-kafka-amd64-1 \
+	v1.13/debian-kafka2:v1.13.2-debian-kafka2-amd64-1.0,v1.13-debian-kafka2-amd64-1 \
+	v1.13/debian-kinesis:v1.13.2-debian-kinesis-amd64-1.0,v1.13-debian-kinesis-amd64-1
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 ARM64_IMAGES := \
-	v1.12/arm64/debian-azureblob:v1.12.3-debian-azureblob-arm64-1.0,v1.12-debian-azureblob-arm64-1 \
-	v1.12/arm64/debian-elasticsearch7:v1.12.3-debian-elasticsearch7-arm64-1.0,v1.12-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
-	v1.12/arm64/debian-elasticsearch6:v1.12.3-debian-elasticsearch6-arm64-1.0,v1.12-debian-elasticsearch6-arm64-1 \
-	v1.12/arm64/debian-loggly:v1.12.3-debian-loggly-arm64-1.0,v1.12-debian-loggly-arm64-1 \
-	v1.12/arm64/debian-logentries:v1.12.3-debian-logentries-arm64-1.0,v1.12-debian-logentries-arm64-1 \
-	v1.12/arm64/debian-cloudwatch:v1.12.3-debian-cloudwatch-arm64-1.0,v1.12-debian-cloudwatch-arm64-1 \
-	v1.12/arm64/debian-stackdriver:v1.12.3-debian-stackdriver-arm64-1.0,v1.12-debian-stackdriver-arm64-1 \
-	v1.12/arm64/debian-s3:v1.12.3-debian-s3-arm64-1.0,v1.12-debian-s3-arm64-1 \
-	v1.12/arm64/debian-syslog:v1.12.3-debian-syslog-arm64-1.0,v1.12-debian-syslog-arm64-1 \
-	v1.12/arm64/debian-forward:v1.12.3-debian-forward-arm64-1.0,v1.12-debian-forward-arm64-1 \
-	v1.12/arm64/debian-gcs:v1.12.3-debian-gcs-arm64-1.0,v1.12-debian-gcs-arm64-1 \
-	v1.12/arm64/debian-graylog:v1.12.3-debian-graylog-arm64-1.0,v1.12-debian-graylog-arm64-1 \
-	v1.12/arm64/debian-papertrail:v1.12.3-debian-papertrail-arm64-1.0,v1.12-debian-papertrail-arm64-1 \
-	v1.12/arm64/debian-logzio:v1.12.3-debian-logzio-arm64-1.0,v1.12-debian-logzio-arm64-1 \
-	v1.12/arm64/debian-kafka:v1.12.3-debian-kafka-arm64-1.0,v1.12-debian-kafka-arm64-1 \
-	v1.12/arm64/debian-kafka2:v1.12.3-debian-kafka2-arm64-1.0,v1.12-debian-kafka2-arm64-1 \
-	v1.12/arm64/debian-kinesis:v1.12.3-debian-kinesis-arm64-1.0,v1.12-debian-kinesis-arm64-1
+	v1.13/arm64/debian-azureblob:v1.13.2-debian-azureblob-arm64-1.0,v1.13-debian-azureblob-arm64-1 \
+	v1.13/arm64/debian-elasticsearch7:v1.13.2-debian-elasticsearch7-arm64-1.0,v1.13-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
+	v1.13/arm64/debian-elasticsearch6:v1.13.2-debian-elasticsearch6-arm64-1.0,v1.13-debian-elasticsearch6-arm64-1 \
+	v1.13/arm64/debian-loggly:v1.13.2-debian-loggly-arm64-1.0,v1.13-debian-loggly-arm64-1 \
+	v1.13/arm64/debian-logentries:v1.13.2-debian-logentries-arm64-1.0,v1.13-debian-logentries-arm64-1 \
+	v1.13/arm64/debian-cloudwatch:v1.13.2-debian-cloudwatch-arm64-1.0,v1.13-debian-cloudwatch-arm64-1 \
+	v1.13/arm64/debian-stackdriver:v1.13.2-debian-stackdriver-arm64-1.0,v1.13-debian-stackdriver-arm64-1 \
+	v1.13/arm64/debian-s3:v1.13.2-debian-s3-arm64-1.0,v1.13-debian-s3-arm64-1 \
+	v1.13/arm64/debian-syslog:v1.13.2-debian-syslog-arm64-1.0,v1.13-debian-syslog-arm64-1 \
+	v1.13/arm64/debian-forward:v1.13.2-debian-forward-arm64-1.0,v1.13-debian-forward-arm64-1 \
+	v1.13/arm64/debian-gcs:v1.13.2-debian-gcs-arm64-1.0,v1.13-debian-gcs-arm64-1 \
+	v1.13/arm64/debian-graylog:v1.13.2-debian-graylog-arm64-1.0,v1.13-debian-graylog-arm64-1 \
+	v1.13/arm64/debian-papertrail:v1.13.2-debian-papertrail-arm64-1.0,v1.13-debian-papertrail-arm64-1 \
+	v1.13/arm64/debian-logzio:v1.13.2-debian-logzio-arm64-1.0,v1.13-debian-logzio-arm64-1 \
+	v1.13/arm64/debian-kafka:v1.13.2-debian-kafka-arm64-1.0,v1.13-debian-kafka-arm64-1 \
+	v1.13/arm64/debian-kafka2:v1.13.2-debian-kafka2-arm64-1.0,v1.13-debian-kafka2-arm64-1 \
+	v1.13/arm64/debian-kinesis:v1.13.2-debian-kinesis-arm64-1.0,v1.13-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
 ALL_IMAGES := \
-	v1.12/debian-s3elasticsearch7:v1.12.3-debian-s3elasticsearch7-5.0-1.2
+	v1.13/debian-s3elasticsearch7:v1.13.2-debian-s3elasticsearch7-5.0-1.0
 
 comma := ,
 empty :=
@@ -81,29 +81,21 @@ eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
 
 ## Docker image management
 
+no-cache-arg = $(if $(call eq, $(no-cache), yes), --no-cache, $(empty))
+
 # Build Docker image.
 #
 # Usage:
 #	make image [no-cache=(yes|no)] [DOCKERFILE=] [VERSION=]
-
-no-cache-arg = $(if $(call eq, $(no-cache), yes), --no-cache, $(empty))
-
-image: src
+image:
 	docker build $(no-cache-arg) -t $(IMAGE_NAME):$(VERSION) docker-image/$(DOCKERFILE)
+
+parsed-tags = $(subst $(comma), $(space), $(TAGS))
 
 # Tag Docker image with given tags.
 #
 # Usage:
 #	make tags [VERSION=] [TAGS=t1,t2,...]
-
-parsed-tags = $(subst $(comma), $(space), $(TAGS))
-
-clean:
-	rm -f docker-image/$(DOCKERFILE)/Dockerfile
-	rm -f docker-image/$(DOCKERFILE)/Gemfile
-	rm -f docker-image/$(DOCKERFILE)/Gemfile.lock
-	rm -f docker-image/$(DOCKERFILE)/conf/*.conf
-
 tags:
 	(set -e ; $(foreach tag, $(parsed-tags), \
 		docker tag $(IMAGE_NAME):$(VERSION) $(IMAGE_NAME):$(tag) ; \
@@ -113,7 +105,6 @@ tags:
 #
 # Usage:
 #	make push [TAGS=t1,t2,...]
-
 push:
 	(set -e ; $(foreach tag, $(parsed-tags), \
 		docker push $(IMAGE_NAME):$(tag) ; \
@@ -123,14 +114,12 @@ push:
 #
 # Usage:
 #	make release [no-cache=(yes|no)] [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
-
 release: | image tags push
 
 # Make manual release of all supported Docker images to Docker Hub.
 #
 # Usage:
 #	make release-all [no-cache=(yes|no)]
-
 release-all:
 	(set -e ; $(foreach img,$(ALL_IMAGES), \
 		make release no-cache=$(no-cache) \
@@ -147,14 +136,12 @@ release-all:
 #
 # Usage:
 #	make src [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
-
-src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh
+src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf
 
 # Generate sources for all supported Docker images.
 #
 # Usage:
 #	make src-all
-
 src-all: README.md
 	(set -e ; $(foreach img,$(ALL_IMAGES), \
 		make src \
@@ -164,91 +151,173 @@ src-all: README.md
 			TAGS=$(word 2,$(subst :, ,$(img))) ; \
 	))
 
+# Render the given erb template.
+#
+# Usage:
+#	make container-image-template [FILE=] [DOCKERFILE=] [VERSION=]
+container-image-template:
+	mkdir -p docker-image/$(DOCKERFILE)/$(dir $(FILE))
+	docker run --rm -i -v $(PWD)/templates/$(FILE).erb:/$(basename $(FILE)).erb:ro \
+		ruby:alpine erb -U -T 1 \
+			dockerfile='$(DOCKERFILE)' \
+			version='$(VERSION)' \
+		/$(basename $(FILE)).erb > docker-image/$(DOCKERFILE)/$(FILE)
+
+# Execute the given TARGET for each images
+#
+# Usage:
+#	make each-image TARGET=
+each-image:
+	(set -e ; $(foreach img,$(ALL_IMAGES), \
+		make $(TARGET) \
+			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
+			VERSION=$(word 1,$(subst $(comma), ,\
+			                 $(word 2,$(subst :, ,$(img))))) ; \
+	))
+
 
 # Generate Dockerfile from template.
 #
 # Usage:
 #	make dockerfile [DOCKERFILE=] [VERSION=]
-
 dockerfile:
-	mkdir -p docker-image/$(DOCKERFILE)
+	make container-image-template FILE=Dockerfile
 	cp $(PWD)/templates/.dockerignore docker-image/$(DOCKERFILE)/.dockerignore
-	docker run --rm -i -v $(PWD)/templates/Dockerfile.erb:/Dockerfile.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/Dockerfile.erb > docker-image/$(DOCKERFILE)/Dockerfile
+dockerfile-all:
+	make each-image TARGET=dockerfile
 
 # Generate Gemfile and Gemfile.lock from template.
 #
 # Usage:
 #	make gemfile [DOCKERFILE=] [VERSION=]
 gemfile:
-	mkdir -p docker-image/$(DOCKERFILE)
-	docker run --rm -i -v $(PWD)/templates/Gemfile.erb:/Gemfile.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/Gemfile.erb > docker-image/$(DOCKERFILE)/Gemfile
+	make container-image-template FILE=Gemfile
 	docker run --rm -i -v $(PWD)/docker-image/$(DOCKERFILE)/Gemfile:/Gemfile:ro \
 		ruby:alpine sh -c "apk add --no-cache --quiet git && bundle lock --print --remove-platform x86_64-linux-musl --add-platform ruby" > docker-image/${DOCKERFILE}/Gemfile.lock
+
+# Generate Gemfile and Gemfile.lock from template for all supported Docker images.
+#
+# Usage:
+#	make gemfile-all
+gemfile-all:
+	make each-image TARGET=gemfile
 
 # Generate entrypoint.sh from template.
 #
 # Usage:
 #	make entrypoint.sh [DOCKERFILE=] [VERSION=]
-
 entrypoint.sh:
-	mkdir -p docker-image/$(DOCKERFILE)
-	docker run --rm -i -v $(PWD)/templates/entrypoint.sh.erb:/entrypoint.sh.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/entrypoint.sh.erb > docker-image/$(DOCKERFILE)/entrypoint.sh
+	make container-image-template FILE=entrypoint.sh
 	chmod 755 docker-image/$(DOCKERFILE)/entrypoint.sh
+
+# Generate entrypoint.sh from template for all supported Docker images.
+#
+# Usage:
+#	make entrypoint.sh-all
+entrypoint.sh-all:
+	make each-image TARGET=entrypoint.sh
 
 # Generate fluent.conf from template.
 #
 # Usage:
 #	make fluent.conf [DOCKERFILE=] [VERSION=]
-
 fluent.conf:
-	mkdir -p docker-image/$(DOCKERFILE)/conf
-	docker run --rm -i -v $(PWD)/templates/conf/fluent.conf.erb:/fluent.conf.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/fluent.conf.erb > docker-image/$(DOCKERFILE)/conf/fluent.conf
+	make container-image-template FILE=conf/fluent.conf
+fluent.conf-all:
+	make each-image TARGET=fluent.conf
 
 # Generate kubernetes.conf from template.
 #
 # Usage:
 #	make kubernetes.conf [DOCKERFILE=] [VERSION=]
-
 kubernetes.conf:
-	mkdir -p docker-image/$(DOCKERFILE)/conf
-	docker run --rm -i -v $(PWD)/templates/conf/kubernetes.conf.erb:/kubernetes.conf.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/kubernetes.conf.erb > docker-image/$(DOCKERFILE)/conf/kubernetes.conf
-	cp $(PWD)/templates/conf/tail_container_parse.conf docker-image/$(DOCKERFILE)/conf
+	make container-image-template FILE=conf/kubernetes.conf
+kubernetes.conf-all:
+	make each-image TARGET=kubernetes.conf
+
+cluster-autoscaler.conf:
+	make container-image-template FILE=conf/kubernetes/cluster-autoscaler.conf
+cluster-autoscaler.conf-all:
+	make each-image TARGET=cluster-autoscaler.conf
+
+containers.conf:
+	make container-image-template FILE=conf/kubernetes/containers.conf
+containers.conf-all:
+	make each-image TARGET=containers.conf
+
+docker.conf:
+	make container-image-template FILE=conf/kubernetes/docker.conf
+docker.conf-all:
+	make each-image TARGET=docker.conf
+
+etcd.conf:
+	make container-image-template FILE=conf/kubernetes/etcd.conf
+etcd.conf-all:
+	make each-image TARGET=etcd.conf
+
+glbc.conf:
+	make container-image-template FILE=conf/kubernetes/glbc.conf
+glbc.conf-all:
+	make each-image TARGET=glbc.conf
+
+kube-apiserver-audit.conf:
+	make container-image-template FILE=conf/kubernetes/kube-apiserver-audit.conf
+kube-apiserver-audit.conf-all:
+	make each-image TARGET=kube-apiserver-audit.conf
+
+kube-apiserver.conf:
+	make container-image-template FILE=conf/kubernetes/kube-apiserver.conf
+kube-apiserver.conf-all:
+	make each-image TARGET=kube-apiserver.conf
+
+kube-controller-manager.conf:
+	make container-image-template FILE=conf/kubernetes/kube-controller-manager.conf
+kube-controller-manager.conf-all:
+	make each-image TARGET=kube-controller-manager.conf
+
+kubelet.conf:
+	make container-image-template FILE=conf/kubernetes/kubelet.conf
+kubelet.conf-all:
+	make each-image TARGET=kubelet.conf
+
+kube-proxy.conf:
+	make container-image-template FILE=conf/kubernetes/kube-proxy.conf
+kube-proxy.conf-all:
+	make each-image TARGET=kube-proxy.conf
+
+kube-scheduler.conf:
+	make container-image-template FILE=conf/kubernetes/kube-scheduler.conf
+kube-scheduler.conf-all:
+	make each-image TARGET=kube-scheduler.conf
+
+rescheduler.conf:
+	make container-image-template FILE=conf/kubernetes/rescheduler.conf
+rescheduler.conf-all:
+	make each-image TARGET=rescheduler.conf
+
+salt.conf:
+	make container-image-template FILE=conf/kubernetes/salt.conf
+salt.conf-all:
+	make each-image TARGET=salt.conf
+
+startupscript.conf:
+	make container-image-template FILE=conf/kubernetes/startupscript.conf
+startupscript.conf-all:
+	make each-image TARGET=startupscript.conf
+
+
 
 systemd.conf:
-	mkdir -p docker-image/$(DOCKERFILE)/conf
-	docker run --rm -i -v $(PWD)/templates/conf/systemd.conf.erb:/systemd.conf.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/systemd.conf.erb > docker-image/$(DOCKERFILE)/conf/systemd.conf
+	make container-image-template FILE=conf/systemd.conf
+systemd.conf-all:
+	make each-image TARGET=systemd.conf
+
 
 prometheus.conf:
-	mkdir -p docker-image/$(DOCKERFILE)/conf
-	docker run --rm -i -v $(PWD)/templates/conf/prometheus.conf.erb:/prometheus.conf.erb:ro \
-		ruby:alpine erb -U -T 1 \
-			dockerfile='$(DOCKERFILE)' \
-			version='$(VERSION)' \
-		/prometheus.conf.erb > docker-image/$(DOCKERFILE)/conf/prometheus.conf
+	make container-image-template FILE=conf/prometheus.conf
+prometheus.conf-all:
+	make each-image TARGET=prometheus.conf
+
 
 README.md: templates/README.md.erb
 	docker run --rm -i -v $(PWD)/templates/README.md.erb:/README.md.erb:ro \
@@ -260,11 +329,20 @@ README.md: templates/README.md.erb
 #
 # Usage:
 #    make plugins [DOCKERFILE=]
-
 plugins:
 	mkdir -p docker-image/$(DOCKERFILE)/plugins
 	cp -R plugins/$(FLUENTD_VERSION)/shared/. docker-image/$(DOCKERFILE)/plugins/
 	cp -R plugins/$(FLUENTD_VERSION)/$(TARGET)/. docker-image/$(DOCKERFILE)/plugins/
+
+# copy plugins required for all supported Docker images.
+#
+# Usage:
+#	make plugins-all
+plugins-all:
+	(set -e ; $(foreach img,$(ALL_IMAGES), \
+		make plugins \
+			DOCKERFILE=$(word 1,$(subst :, ,$(img))) ; \
+	))
 
 # Create `post_checkout` Docker Hub hook.
 #
@@ -276,10 +354,9 @@ plugins:
 #
 # Usage:
 #	make post-checkout-hook [DOCKERFILE=]
-
 post-checkout-hook:
 	if [ -n "$(findstring /arm64/,$(DOCKERFILE))" ]; then \
-		mkdir -p $(DOCKERFILE)/hooks; \
+		mkdir -p docker-image/$(DOCKERFILE)/hooks; \
 		docker run --rm -i -v $(PWD)/templates/post_checkout.erb:/post_checkout.erb:ro \
 			ruby:alpine erb -U \
 				dockerfile='$(DOCKERFILE)' \
@@ -291,14 +368,8 @@ post-checkout-hook:
 #
 # Usage:
 #	make post-checkout-hook-all
-
 post-checkout-hook-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make post-checkout-hook \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) ; \
-	))
-
-
+	make each-image TARGET=post-checkout-hook
 
 # Create `post_push` Docker Hub hook.
 #
@@ -318,83 +389,6 @@ post-push-hook:
 			image_tags='$(TAGS)' \
 		/post_push.erb > docker-image/$(DOCKERFILE)/hooks/post_push
 
-
-# Generate Dockerfile from template for all supported Docker images.
-#
-# Usage:
-#	make dockerfile-all
-
-dockerfile-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make dockerfile \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) ; \
-	))
-
-# Generate Gemfile and Gemfile.lock from template for all supported Docker images.
-#
-# Usage:
-#	make gemfile-all
-
-gemfile-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make gemfile \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) ; \
-	))
-
-# Generate entrypoint.sh from template for all supported Docker images.
-#
-# Usage:
-#	make entrypoint.sh-all
-
-entrypoint.sh-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make entrypoint.sh \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) ; \
-	))
-
-# Generate fluent.conf from template for all supported Docker images.
-#
-# Usage:
-#	make fluent.conf-all
-
-fluent.conf-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make fluent.conf \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) ; \
-	))
-
-# Generate kubernetes.conf from template for all supported Docker images.
-#
-# Usage:
-#	make kubernetes.conf-all
-
-kubernetes.conf-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make kubernetes.conf \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			VERSION=$(word 1,$(subst $(comma), ,\
-			                 $(word 2,$(subst :, ,$(img))))) ; \
-	))
-
-# copy plugins required for all supported Docker images.
-#
-# Usage:
-#	make plugins-all
-
-plugins-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make plugins \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) ; \
-	))
-
 # Create `post_push` Docker Hub hook for all supported Docker images.
 #
 # Usage:
@@ -411,12 +405,29 @@ post-push-hook-all:
 .PHONY: image tags push \
         release release-all \
         src src-all \
+        container-image-template each-image \
         dockerfile dockerfile-all \
         gemfile gemfile-all \
         entrypoint.sh entrypoint.sh-all \
         fluent.conf fluent.conf-all \
         kubernetes.conf kubernetes.conf-all\
+        cluster-autoscaler.conf cluster-autoscaler.conf-all \
+        containers.conf containers.conf-all \
+        docker.conf docker.conf-all \
+        etcd.conf etcd.conf-all \
+        glbc.conf glbc.conf-all \
+        kube-apiserver-audit.conf kube-apiserver-audit.conf-all \
+        kube-apiserver.conf kube-apiserver.conf-all \
+        kube-controller-manager.conf kube-controller-manager.conf-all \
+        kubelet.conf kubelet.conf-all \
+        kube-proxy.conf kube-proxy.conf-all \
+        kube-scheduler.conf kube-scheduler.conf-all \
+        rescheduler.conf rescheduler.conf-all \
+        salt.conf salt.conf-all \
+        startupscript.conf startupscript.conf-all \
+        systemd.conf systemd.conf-all \
+        prometheus.conf prometheus.conf-all \
         plugins plugins-all \
-        post-push-hook post-push-hook-all \
         post-checkout-hook post-checkout-hook-all \
+        post-push-hook post-push-hook-all \
 	README.md
