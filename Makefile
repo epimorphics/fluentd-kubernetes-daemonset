@@ -53,7 +53,7 @@ ARM64_IMAGES := \
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
 ALL_IMAGES := \
-	v1.13/debian-s3elasticsearch7:v1.13.2-debian-s3elasticsearch7-5.0-1.0
+	v1.13/debian-s3elasticsearch7:v1.13.2-debian-s3elasticsearch7-13.3-1.0
 
 comma := ,
 empty :=
