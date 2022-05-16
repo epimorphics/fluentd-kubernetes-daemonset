@@ -12,44 +12,46 @@
 
 IMAGE_NAME := fluent/fluentd-kubernetes
 X86_IMAGES := \
-	v1.14/debian-azureblob:v1.14.3-debian-azureblob-amd64-1.0,v1.14-debian-azureblob-amd64-1 \
-	v1.14/debian-elasticsearch7:v1.14.3-debian-elasticsearch7-amd64-1.0,v1.14-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
-	v1.14/debian-elasticsearch6:v1.14.3-debian-elasticsearch6-amd64-1.0,v1.14-debian-elasticsearch6-amd64-1 \
-	v1.14/debian-loggly:v1.14.3-debian-loggly-amd64-1.0,v1.14-debian-loggly-amd64-1 \
-	v1.14/debian-logentries:v1.14.3-debian-logentries-amd64-1.0,v1.14-debian-logentries-amd64-1 \
-	v1.14/debian-cloudwatch:v1.14.3-debian-cloudwatch-amd64-1.0,v1.14-debian-cloudwatch-amd64-1 \
-	v1.14/debian-stackdriver:v1.14.3-debian-stackdriver-amd64-1.0,v1.14-debian-stackdriver-amd64-1 \
-	v1.14/debian-s3:v1.14.3-debian-s3-amd64-1.0,v1.14-debian-s3-amd64-1 \
-	v1.14/debian-syslog:v1.14.3-debian-syslog-amd64-1.0,v1.14-debian-syslog-amd64-1 \
-	v1.14/debian-forward:v1.14.3-debian-forward-amd64-1.0,v1.14-debian-forward-amd64-1 \
-	v1.14/debian-gcs:v1.14.3-debian-gcs-amd64-1.0,v1.14-debian-gcs-amd64-1 \
-	v1.14/debian-graylog:v1.14.3-debian-graylog-amd64-1.0,v1.14-debian-graylog-amd64-1 \
-	v1.14/debian-papertrail:v1.14.3-debian-papertrail-amd64-1.0,v1.14-debian-papertrail-amd64-1 \
-	v1.14/debian-logzio:v1.14.3-debian-logzio-amd64-1.0,v1.14-debian-logzio-amd64-1 \
-	v1.14/debian-kafka:v1.14.3-debian-kafka-amd64-1.0,v1.14-debian-kafka-amd64-1 \
-	v1.14/debian-kafka2:v1.14.3-debian-kafka2-amd64-1.0,v1.14-debian-kafka2-amd64-1 \
-	v1.14/debian-kinesis:v1.14.3-debian-kinesis-amd64-1.0,v1.14-debian-kinesis-amd64-1
+	v1.14/debian-azureblob:v1.14.6-debian-azureblob-amd64-1.0,v1.14-debian-azureblob-amd64-1 \
+	v1.14/debian-elasticsearch7:v1.14.6-debian-elasticsearch7-amd64-1.0,v1.14-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
+	v1.14/debian-elasticsearch6:v1.14.6-debian-elasticsearch6-amd64-1.0,v1.14-debian-elasticsearch6-amd64-1 \
+	v1.14/debian-opensearch:v1.14.6-debian-opensearch-amd64-1.0,v1.14-debian-opensearch-amd64-1 \
+	v1.14/debian-loggly:v1.14.6-debian-loggly-amd64-1.0,v1.14-debian-loggly-amd64-1 \
+	v1.14/debian-logentries:v1.14.6-debian-logentries-amd64-1.0,v1.14-debian-logentries-amd64-1 \
+	v1.14/debian-cloudwatch:v1.14.6-debian-cloudwatch-amd64-1.0,v1.14-debian-cloudwatch-amd64-1 \
+	v1.14/debian-stackdriver:v1.14.6-debian-stackdriver-amd64-1.0,v1.14-debian-stackdriver-amd64-1 \
+	v1.14/debian-s3:v1.14.6-debian-s3-amd64-1.0,v1.14-debian-s3-amd64-1 \
+	v1.14/debian-syslog:v1.14.6-debian-syslog-amd64-1.0,v1.14-debian-syslog-amd64-1 \
+	v1.14/debian-forward:v1.14.6-debian-forward-amd64-1.0,v1.14-debian-forward-amd64-1 \
+	v1.14/debian-gcs:v1.14.6-debian-gcs-amd64-1.0,v1.14-debian-gcs-amd64-1 \
+	v1.14/debian-graylog:v1.14.6-debian-graylog-amd64-1.0,v1.14-debian-graylog-amd64-1 \
+	v1.14/debian-papertrail:v1.14.6-debian-papertrail-amd64-1.0,v1.14-debian-papertrail-amd64-1 \
+	v1.14/debian-logzio:v1.14.6-debian-logzio-amd64-1.0,v1.14-debian-logzio-amd64-1 \
+	v1.14/debian-kafka:v1.14.6-debian-kafka-amd64-1.0,v1.14-debian-kafka-amd64-1 \
+	v1.14/debian-kafka2:v1.14.6-debian-kafka2-amd64-1.0,v1.14-debian-kafka2-amd64-1 \
+	v1.14/debian-kinesis:v1.14.6-debian-kinesis-amd64-1.0,v1.14-debian-kinesis-amd64-1
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 ARM64_IMAGES := \
-	v1.14/arm64/debian-azureblob:v1.14.3-debian-azureblob-arm64-1.0,v1.14-debian-azureblob-arm64-1 \
-	v1.14/arm64/debian-elasticsearch7:v1.14.3-debian-elasticsearch7-arm64-1.0,v1.14-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
-	v1.14/arm64/debian-elasticsearch6:v1.14.3-debian-elasticsearch6-arm64-1.0,v1.14-debian-elasticsearch6-arm64-1 \
-	v1.14/arm64/debian-loggly:v1.14.3-debian-loggly-arm64-1.0,v1.14-debian-loggly-arm64-1 \
-	v1.14/arm64/debian-logentries:v1.14.3-debian-logentries-arm64-1.0,v1.14-debian-logentries-arm64-1 \
-	v1.14/arm64/debian-cloudwatch:v1.14.3-debian-cloudwatch-arm64-1.0,v1.14-debian-cloudwatch-arm64-1 \
-	v1.14/arm64/debian-stackdriver:v1.14.3-debian-stackdriver-arm64-1.0,v1.14-debian-stackdriver-arm64-1 \
-	v1.14/arm64/debian-s3:v1.14.3-debian-s3-arm64-1.0,v1.14-debian-s3-arm64-1 \
-	v1.14/arm64/debian-syslog:v1.14.3-debian-syslog-arm64-1.0,v1.14-debian-syslog-arm64-1 \
-	v1.14/arm64/debian-forward:v1.14.3-debian-forward-arm64-1.0,v1.14-debian-forward-arm64-1 \
-	v1.14/arm64/debian-gcs:v1.14.3-debian-gcs-arm64-1.0,v1.14-debian-gcs-arm64-1 \
-	v1.14/arm64/debian-graylog:v1.14.3-debian-graylog-arm64-1.0,v1.14-debian-graylog-arm64-1 \
-	v1.14/arm64/debian-papertrail:v1.14.3-debian-papertrail-arm64-1.0,v1.14-debian-papertrail-arm64-1 \
-	v1.14/arm64/debian-logzio:v1.14.3-debian-logzio-arm64-1.0,v1.14-debian-logzio-arm64-1 \
-	v1.14/arm64/debian-kafka:v1.14.3-debian-kafka-arm64-1.0,v1.14-debian-kafka-arm64-1 \
-	v1.14/arm64/debian-kafka2:v1.14.3-debian-kafka2-arm64-1.0,v1.14-debian-kafka2-arm64-1 \
-	v1.14/arm64/debian-kinesis:v1.14.3-debian-kinesis-arm64-1.0,v1.14-debian-kinesis-arm64-1
+	v1.14/arm64/debian-azureblob:v1.14.6-debian-azureblob-arm64-1.0,v1.14-debian-azureblob-arm64-1 \
+	v1.14/arm64/debian-elasticsearch7:v1.14.6-debian-elasticsearch7-arm64-1.0,v1.14-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
+	v1.14/arm64/debian-elasticsearch6:v1.14.6-debian-elasticsearch6-arm64-1.0,v1.14-debian-elasticsearch6-arm64-1 \
+	v1.14/arm64/debian-opensearch:v1.14.6-debian-opensearch-arm64-1.0,v1.14-debian-opensearch-arm64-1 \
+	v1.14/arm64/debian-loggly:v1.14.6-debian-loggly-arm64-1.0,v1.14-debian-loggly-arm64-1 \
+	v1.14/arm64/debian-logentries:v1.14.6-debian-logentries-arm64-1.0,v1.14-debian-logentries-arm64-1 \
+	v1.14/arm64/debian-cloudwatch:v1.14.6-debian-cloudwatch-arm64-1.0,v1.14-debian-cloudwatch-arm64-1 \
+	v1.14/arm64/debian-stackdriver:v1.14.6-debian-stackdriver-arm64-1.0,v1.14-debian-stackdriver-arm64-1 \
+	v1.14/arm64/debian-s3:v1.14.6-debian-s3-arm64-1.0,v1.14-debian-s3-arm64-1 \
+	v1.14/arm64/debian-syslog:v1.14.6-debian-syslog-arm64-1.0,v1.14-debian-syslog-arm64-1 \
+	v1.14/arm64/debian-forward:v1.14.6-debian-forward-arm64-1.0,v1.14-debian-forward-arm64-1 \
+	v1.14/arm64/debian-gcs:v1.14.6-debian-gcs-arm64-1.0,v1.14-debian-gcs-arm64-1 \
+	v1.14/arm64/debian-graylog:v1.14.6-debian-graylog-arm64-1.0,v1.14-debian-graylog-arm64-1 \
+	v1.14/arm64/debian-papertrail:v1.14.6-debian-papertrail-arm64-1.0,v1.14-debian-papertrail-arm64-1 \
+	v1.14/arm64/debian-logzio:v1.14.6-debian-logzio-arm64-1.0,v1.14-debian-logzio-arm64-1 \
+	v1.14/arm64/debian-kafka:v1.14.6-debian-kafka-arm64-1.0,v1.14-debian-kafka-arm64-1 \
+	v1.14/arm64/debian-kafka2:v1.14.6-debian-kafka2-arm64-1.0,v1.14-debian-kafka2-arm64-1 \
+	v1.14/arm64/debian-kinesis:v1.14.6-debian-kinesis-arm64-1.0,v1.14-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
 ALL_IMAGES := \
@@ -62,6 +64,8 @@ space := $(empty) $(empty)
 # Default is first image from ALL_IMAGES list.
 DOCKERFILE ?= $(word 1,$(subst :, ,$(word 1,$(ALL_IMAGES))))
 TARGET ?= $(word 2,$(subst -, , $(DOCKERFILE)))
+
+RUBY_VERSION = 2.7
 
 # Gets the version value based on the directory the dockerfile is in.
 FLUENTD_VERSION ?= $(word 1,$(subst /, ,$(DOCKERFILE)))
@@ -154,13 +158,14 @@ src-all: README.md
 # Render the given erb template.
 #
 # Usage:
-#	make container-image-template [FILE=] [DOCKERFILE=] [VERSION=]
+#	make container-image-template [FILE=] [DOCKERFILE=] [VERSION=] [RUBY_VERSION=]
 container-image-template:
 	mkdir -p docker-image/$(DOCKERFILE)/$(dir $(FILE))
 	docker run --rm -i -v $(PWD)/templates/$(FILE).erb:/$(basename $(FILE)).erb:ro \
 		ruby:alpine erb -U -T 1 \
 			dockerfile='$(DOCKERFILE)' \
 			version='$(VERSION)' \
+			ruby_version='$(RUBY_VERSION)' \
 		/$(basename $(FILE)).erb > docker-image/$(DOCKERFILE)/$(FILE)
 
 # Execute the given TARGET for each images
