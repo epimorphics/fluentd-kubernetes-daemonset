@@ -59,9 +59,11 @@ spec:
     spec:
       serviceAccount: fluentd
       serviceAccountName: fluentd
-      # Enable tolerations if you want to run daemonset on master nodes.
+      # Enable tolerations if you want to run daemonset on control-plane nodes.
       # Recommended to disable on managed k8s.
       # tolerations:
+      # - key: node-role.kubernetes.io/control-plane
+      #   effect: NoSchedule
       # - key: node-role.kubernetes.io/master
       #   effect: NoSchedule
       containers:
@@ -69,6 +71,10 @@ spec:
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-graylog
         imagePullPolicy: IfNotPresent
         env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
           - name:  FLUENT_GRAYLOG_HOST
             value: "graylog-server-ip-or-dns-name"
           - name:  FLUENT_GRAYLOG_PORT

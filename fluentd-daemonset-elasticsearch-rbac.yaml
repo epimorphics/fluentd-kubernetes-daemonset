@@ -57,12 +57,18 @@ spec:
       serviceAccount: fluentd
       serviceAccountName: fluentd
       tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
       containers:
       - name: fluentd
         image: fluent/fluentd-kubernetes-daemonset:v1-debian-elasticsearch
         env:
+          - name: K8S_NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
           - name:  FLUENT_ELASTICSEARCH_HOST
             value: "elasticsearch-logging"
           - name:  FLUENT_ELASTICSEARCH_PORT

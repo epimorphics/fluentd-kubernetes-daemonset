@@ -1,0 +1,8 @@
+.dockerignore
+Dockerfile
+Gemfile
+Gemfile.lock
+conf
+entrypoint.sh
+hooks
+plugins
