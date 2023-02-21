@@ -54,8 +54,7 @@ ARM64_IMAGES := \
 	v1.15/arm64/debian-kinesis:v1.15.3-debian-kinesis-arm64-1.1,v1.15-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES := \
-	v1.15/debian-s3elasticsearch8:v1.15.3-debian-s3elasticsearch8-15.3-1.0
+ALL_IMAGES :=  v1.15/debian-s3elasticsearch8:v1.15.3-debian-s3elasticsearch8-15.3-1.0
 
 comma := ,
 empty :=
