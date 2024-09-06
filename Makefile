@@ -52,7 +52,7 @@ ARM64_IMAGES := \
 	v1.17/arm64/debian-kinesis:v1.17.1-debian-kinesis-arm64-1.0,v1.17-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-0.01
+ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-0.02
 
 comma := ,
 empty :=

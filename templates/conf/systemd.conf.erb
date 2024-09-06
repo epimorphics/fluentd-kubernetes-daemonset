@@ -13,7 +13,7 @@
     persistent true
     path /var/log/fluentd-journald-kubelet-cursor.json
   </storage>
-<% if target.start_with?("elasticsearch") %>
+<% if target.match("elasticsearch") %>
   <entry>
     fields_strip_underscores true
   </entry>
@@ -32,7 +32,7 @@
     persistent true
     path /var/log/fluentd-journald-docker-cursor.json
   </storage>
-<% if target.start_with?("elasticsearch") %>
+<% if target.match("elasticsearch") %>
   <entry>
     fields_strip_underscores true
   </entry>
@@ -51,7 +51,7 @@
     persistent true
     path /var/log/fluentd-journald-bootkube-cursor.json
   </storage>
-<% if target.start_with?("elasticsearch") %>
+<% if target.match("elasticsearch") %>
   <entry>
     fields_strip_underscores true
   </entry>
