@@ -13,10 +13,10 @@ ENV QEMU_DOWNLOAD_SHA256 5db25cccb40ac7b1ca857653b883376b931d91b06ff34ffe70dcf61
 RUN apk add curl --no-cache
 RUN curl -sL -o qemu-6.0.0.balena1-aarch64.tar.gz https://github.com/balena-io/qemu/releases/download/v6.0.0%2Bbalena1/qemu-6.0.0.balena1-aarch64.tar.gz && echo "$QEMU_DOWNLOAD_SHA256 *qemu-6.0.0.balena1-aarch64.tar.gz" | sha256sum -c - | tar zxvf qemu-6.0.0.balena1-aarch64.tar.gz -C . && mv qemu-6.0.0+balena1-aarch64/qemu-aarch64-static .
 
-FROM fluent/fluentd:<%= fluentd_ver %>-debian-arm64-1.2
+FROM fluent/fluentd:<%= fluentd_ver %>-debian-arm64-1.0
 COPY --from=builder /go/qemu-aarch64-static /usr/bin/
 <% else %>
-FROM fluent/fluentd:<%= fluentd_ver %>-debian-amd64-1.2
+FROM fluent/fluentd:<%= fluentd_ver %>-debian-amd64-1.0
 <% end %>
 
 LABEL maintainer="Eduardo Silva <eduardo@treasure-data.com>"
@@ -30,13 +30,13 @@ ENV FLUENTD_DISABLE_BUNDLER_INJECTION 1
 
 COPY Gemfile* /fluentd/
 RUN buildDeps="sudo make gcc g++ libc-dev libffi-dev<% if target == "graylog" %> build-essential patch zlib1g-dev liblzma-dev<% elsif target == "kafka" || target == "kafka2" %> build-essential autoconf automake libtool pkg-config<% elsif  target == "s3elasticsearch7" || target == "s3elasticsearch8" %> curl build-essential libgeoip-dev libmaxminddb-dev<% elsif target == "s3" %> curl<% end %><% if requires_git %> git<% end %>" \
-  runtimeDeps="<% if target == "kafka" || target == "kafka2" %>krb5-kdc libsasl2-modules-gssapi-mit libsasl2-dev<% elsif target == "azureblob" %>pkg-config libxslt-dev libxml2-dev<% end %>" \
+  runtimeDeps="<% if target == "kafka" || target == "kafka2" %>krb5-kdc libsasl2-modules-gssapi-mit libsasl2-2<% elsif target == "azureblob" %>pkg-config libxslt-dev libxml2-dev<% end %>" \
      <% if target == "kafka" || target == "kafka2" %> && export DEBIAN_FRONTEND=noninteractive <% end %> && apt-get update \
      && apt-get upgrade -y \
      && apt-get install \
      -y --no-install-recommends \
      $buildDeps $runtimeDeps net-tools \
-    && gem install bundler --version 2.2.24 \
+    && gem install bundler --version 2.4.17 \
     && bundle config silence_root_warning true<% if target == "azureblob" %> && bundle config build.nokogiri --use-system-libraries<% end %> \
     && bundle install --gemfile=/fluentd/Gemfile --path=/fluentd/vendor/bundle \
 <% if target == "s3" || target =~ /s3elasticsearch/ %>
@@ -49,6 +49,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev libffi-dev<% if target == "graylog" %>
     apt-get purge -y --auto-remove \
                   -o APT::AutoRemove::RecommendsImportant=false \
                   $buildDeps \
+                  '*-dev' \
  && rm -rf /var/lib/apt/lists/* \
     && gem sources --clear-all \
     && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem<% if target == "kafka" || target == "kafka2" %> \
@@ -71,6 +72,9 @@ COPY entrypoint.sh /fluentd/entrypoint.sh
 # Environment variables
 ENV FLUENTD_OPT=""
 ENV FLUENTD_CONF="fluent.conf"
+# Override LD_PRELOAD in fluentd docker image
+# Set "/usr/lib/libjemalloc.so.2" if you want to enable jemalloc explicitly
+ENV LD_PRELOAD=""
 
 # Overwrite ENTRYPOINT to run fluentd as root for /var/log / /var/lib
 ENTRYPOINT ["tini", "--", "/fluentd/entrypoint.sh"]

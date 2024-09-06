@@ -12,49 +12,47 @@
 
 IMAGE_NAME := fluent/fluentd-kubernetes
 X86_IMAGES := \
-	v1.15/debian-azureblob:v1.15.3-debian-azureblob-amd64-1.1,v1.15-debian-azureblob-amd64-1 \
-	v1.15/debian-elasticsearch7:v1.15.3-debian-elasticsearch7-amd64-1.1,v1.15-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
-	v1.15/debian-elasticsearch6:v1.15.3-debian-elasticsearch6-amd64-1.1,v1.15-debian-elasticsearch6-amd64-1 \
-	v1.15/debian-opensearch:v1.15.3-debian-opensearch-amd64-1.1,v1.15-debian-opensearch-amd64-1 \
-	v1.15/debian-loggly:v1.15.3-debian-loggly-amd64-1.1,v1.15-debian-loggly-amd64-1 \
-	v1.15/debian-logentries:v1.15.3-debian-logentries-amd64-1.1,v1.15-debian-logentries-amd64-1 \
-	v1.15/debian-cloudwatch:v1.15.3-debian-cloudwatch-amd64-1.1,v1.15-debian-cloudwatch-amd64-1 \
-	v1.15/debian-stackdriver:v1.15.3-debian-stackdriver-amd64-1.1,v1.15-debian-stackdriver-amd64-1 \
-	v1.15/debian-s3:v1.15.3-debian-s3-amd64-1.1,v1.15-debian-s3-amd64-1 \
-	v1.15/debian-syslog:v1.15.3-debian-syslog-amd64-1.1,v1.15-debian-syslog-amd64-1 \
-	v1.15/debian-forward:v1.15.3-debian-forward-amd64-1.1,v1.15-debian-forward-amd64-1 \
-	v1.15/debian-gcs:v1.15.3-debian-gcs-amd64-1.1,v1.15-debian-gcs-amd64-1 \
-	v1.15/debian-graylog:v1.15.3-debian-graylog-amd64-1.1,v1.15-debian-graylog-amd64-1 \
-	v1.15/debian-papertrail:v1.15.3-debian-papertrail-amd64-1.1,v1.15-debian-papertrail-amd64-1 \
-	v1.15/debian-logzio:v1.15.3-debian-logzio-amd64-1.1,v1.15-debian-logzio-amd64-1 \
-	v1.15/debian-kafka:v1.15.3-debian-kafka-amd64-1.1,v1.15-debian-kafka-amd64-1 \
-	v1.15/debian-kafka2:v1.15.3-debian-kafka2-amd64-1.1,v1.15-debian-kafka2-amd64-1 \
-	v1.15/debian-kinesis:v1.15.3-debian-kinesis-amd64-1.1,v1.15-debian-kinesis-amd64-1
+	v1.17/debian-azureblob:v1.17.1-debian-azureblob-amd64-1.0,v1.17-debian-azureblob-amd64-1 \
+	v1.17/debian-elasticsearch8:v1.17.1-debian-elasticsearch8-amd64-1.0,v1.17-debian-elasticsearch8-amd64-1 \
+	v1.17/debian-elasticsearch7:v1.17.1-debian-elasticsearch7-amd64-1.0,v1.17-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
+	v1.17/debian-opensearch:v1.17.1-debian-opensearch-amd64-1.0,v1.17-debian-opensearch-amd64-1 \
+	v1.17/debian-loggly:v1.17.1-debian-loggly-amd64-1.0,v1.17-debian-loggly-amd64-1 \
+	v1.17/debian-logentries:v1.17.1-debian-logentries-amd64-1.0,v1.17-debian-logentries-amd64-1 \
+	v1.17/debian-cloudwatch:v1.17.1-debian-cloudwatch-amd64-1.0,v1.17-debian-cloudwatch-amd64-1 \
+	v1.17/debian-s3:v1.17.1-debian-s3-amd64-1.0,v1.17-debian-s3-amd64-1 \
+	v1.17/debian-syslog:v1.17.1-debian-syslog-amd64-1.0,v1.17-debian-syslog-amd64-1 \
+	v1.17/debian-forward:v1.17.1-debian-forward-amd64-1.0,v1.17-debian-forward-amd64-1 \
+	v1.17/debian-gcs:v1.17.1-debian-gcs-amd64-1.0,v1.17-debian-gcs-amd64-1 \
+	v1.17/debian-graylog:v1.17.1-debian-graylog-amd64-1.0,v1.17-debian-graylog-amd64-1 \
+	v1.17/debian-papertrail:v1.17.1-debian-papertrail-amd64-1.0,v1.17-debian-papertrail-amd64-1 \
+	v1.17/debian-logzio:v1.17.1-debian-logzio-amd64-1.0,v1.17-debian-logzio-amd64-1 \
+	v1.17/debian-kafka:v1.17.1-debian-kafka-amd64-1.0,v1.17-debian-kafka-amd64-1 \
+	v1.17/debian-kafka2:v1.17.1-debian-kafka2-amd64-1.0,v1.17-debian-kafka2-amd64-1 \
+	v1.17/debian-kinesis:v1.17.1-debian-kinesis-amd64-1.0,v1.17-debian-kinesis-amd64-1
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 ARM64_IMAGES := \
-	v1.15/arm64/debian-azureblob:v1.15.3-debian-azureblob-arm64-1.1,v1.15-debian-azureblob-arm64-1 \
-	v1.15/arm64/debian-elasticsearch7:v1.15.3-debian-elasticsearch7-arm64-1.1,v1.15-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
-	v1.15/arm64/debian-elasticsearch6:v1.15.3-debian-elasticsearch6-arm64-1.1,v1.15-debian-elasticsearch6-arm64-1 \
-	v1.15/arm64/debian-opensearch:v1.15.3-debian-opensearch-arm64-1.1,v1.15-debian-opensearch-arm64-1 \
-	v1.15/arm64/debian-loggly:v1.15.3-debian-loggly-arm64-1.1,v1.15-debian-loggly-arm64-1 \
-	v1.15/arm64/debian-logentries:v1.15.3-debian-logentries-arm64-1.1,v1.15-debian-logentries-arm64-1 \
-	v1.15/arm64/debian-cloudwatch:v1.15.3-debian-cloudwatch-arm64-1.1,v1.15-debian-cloudwatch-arm64-1 \
-	v1.15/arm64/debian-stackdriver:v1.15.3-debian-stackdriver-arm64-1.1,v1.15-debian-stackdriver-arm64-1 \
-	v1.15/arm64/debian-s3:v1.15.3-debian-s3-arm64-1.1,v1.15-debian-s3-arm64-1 \
-	v1.15/arm64/debian-syslog:v1.15.3-debian-syslog-arm64-1.1,v1.15-debian-syslog-arm64-1 \
-	v1.15/arm64/debian-forward:v1.15.3-debian-forward-arm64-1.1,v1.15-debian-forward-arm64-1 \
-	v1.15/arm64/debian-gcs:v1.15.3-debian-gcs-arm64-1.1,v1.15-debian-gcs-arm64-1 \
-	v1.15/arm64/debian-graylog:v1.15.3-debian-graylog-arm64-1.1,v1.15-debian-graylog-arm64-1 \
-	v1.15/arm64/debian-papertrail:v1.15.3-debian-papertrail-arm64-1.1,v1.15-debian-papertrail-arm64-1 \
-	v1.15/arm64/debian-logzio:v1.15.3-debian-logzio-arm64-1.1,v1.15-debian-logzio-arm64-1 \
-	v1.15/arm64/debian-kafka:v1.15.3-debian-kafka-arm64-1.1,v1.15-debian-kafka-arm64-1 \
-	v1.15/arm64/debian-kafka2:v1.15.3-debian-kafka2-arm64-1.1,v1.15-debian-kafka2-arm64-1 \
-	v1.15/arm64/debian-kinesis:v1.15.3-debian-kinesis-arm64-1.1,v1.15-debian-kinesis-arm64-1
+	v1.17/arm64/debian-azureblob:v1.17.1-debian-azureblob-arm64-1.0,v1.17-debian-azureblob-arm64-1 \
+	v1.17/arm64/debian-elasticsearch8:v1.17.1-debian-elasticsearch8-arm64-1.0,v1.17-debian-elasticsearch8-arm64-1 \
+	v1.17/arm64/debian-elasticsearch7:v1.17.1-debian-elasticsearch7-arm64-1.0,v1.17-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
+	v1.17/arm64/debian-opensearch:v1.17.1-debian-opensearch-arm64-1.0,v1.17-debian-opensearch-arm64-1 \
+	v1.17/arm64/debian-loggly:v1.17.1-debian-loggly-arm64-1.0,v1.17-debian-loggly-arm64-1 \
+	v1.17/arm64/debian-logentries:v1.17.1-debian-logentries-arm64-1.0,v1.17-debian-logentries-arm64-1 \
+	v1.17/arm64/debian-cloudwatch:v1.17.1-debian-cloudwatch-arm64-1.0,v1.17-debian-cloudwatch-arm64-1 \
+	v1.17/arm64/debian-s3:v1.17.1-debian-s3-arm64-1.0,v1.17-debian-s3-arm64-1 \
+	v1.17/arm64/debian-syslog:v1.17.1-debian-syslog-arm64-1.0,v1.17-debian-syslog-arm64-1 \
+	v1.17/arm64/debian-forward:v1.17.1-debian-forward-arm64-1.0,v1.17-debian-forward-arm64-1 \
+	v1.17/arm64/debian-gcs:v1.17.1-debian-gcs-arm64-1.0,v1.17-debian-gcs-arm64-1 \
+	v1.17/arm64/debian-graylog:v1.17.1-debian-graylog-arm64-1.0,v1.17-debian-graylog-arm64-1 \
+	v1.17/arm64/debian-papertrail:v1.17.1-debian-papertrail-arm64-1.0,v1.17-debian-papertrail-arm64-1 \
+	v1.17/arm64/debian-logzio:v1.17.1-debian-logzio-arm64-1.0,v1.17-debian-logzio-arm64-1 \
+	v1.17/arm64/debian-kafka:v1.17.1-debian-kafka-arm64-1.0,v1.17-debian-kafka-arm64-1 \
+	v1.17/arm64/debian-kafka2:v1.17.1-debian-kafka2-arm64-1.0,v1.17-debian-kafka2-arm64-1 \
+	v1.17/arm64/debian-kinesis:v1.17.1-debian-kinesis-arm64-1.0,v1.17-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES :=  v1.15/debian-s3elasticsearch7:v1.15.3-debian-s3elasticsearch7-0.01
+ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-0.01
 
 comma := ,
 empty :=
@@ -64,7 +62,7 @@ space := $(empty) $(empty)
 DOCKERFILE ?= $(word 1,$(subst :, ,$(word 1,$(ALL_IMAGES))))
 TARGET ?= $(word 2,$(subst -, , $(DOCKERFILE)))
 
-RUBY_VERSION = 3.1
+RUBY_VERSION = 3.2
 
 # Gets the version value based on the directory the dockerfile is in.
 FLUENTD_VERSION ?= $(word 1,$(subst /, ,$(DOCKERFILE)))
@@ -85,6 +83,9 @@ eq = $(if $(or $(1),$(2)),$(and $(findstring $(1),$(2)),\
 ## Docker image management
 
 no-cache-arg = $(if $(call eq, $(no-cache), yes), --no-cache, $(empty))
+
+echo-all-images:
+	@echo $(ALL_IMAGES)
 
 # Build Docker image.
 #
@@ -139,7 +140,7 @@ release-all:
 #
 # Usage:
 #	make src [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
-src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf
+src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
 
 # Generate sources for all supported Docker images.
 #
@@ -161,7 +162,7 @@ src-all: README.md
 container-image-template:
 	mkdir -p docker-image/$(DOCKERFILE)/$(dir $(FILE))
 	docker run --rm -i -v $(PWD)/templates/$(FILE).erb:/$(basename $(FILE)).erb:ro \
-		ruby:alpine erb -U -T 1 \
+		ruby:$(RUBY_VERSION)-alpine erb -U -T 1 \
 			dockerfile='$(DOCKERFILE)' \
 			version='$(VERSION)' \
 			ruby_version='$(RUBY_VERSION)' \
@@ -196,8 +197,22 @@ dockerfile-all:
 #	make gemfile [DOCKERFILE=] [VERSION=]
 gemfile:
 	make container-image-template FILE=Gemfile
-	docker run --rm -i -v $(PWD)/docker-image/$(DOCKERFILE)/Gemfile:/Gemfile:ro \
-		ruby:alpine sh -c "apk add --no-cache --quiet git && bundle lock --print --remove-platform x86_64-linux-musl --add-platform ruby" > docker-image/${DOCKERFILE}/Gemfile.lock
+	RETRY=1; \
+	while [ $${RETRY} -ge 1 ] ; do \
+	  docker run --rm -i -v $(PWD)/docker-image/$(DOCKERFILE)/Gemfile:/Gemfile:ro \
+		ruby:$(RUBY_VERSION)-alpine sh -c "apk add --no-cache --quiet git && bundle lock --print --remove-platform x86_64-linux-musl --add-platform ruby" > docker-image/${DOCKERFILE}/Gemfile.lock; \
+	  if [ $$? -eq 0 ]; then \
+	    RETRY=0; \
+	  else \
+	    RETRY=$(shell echo $$(( $(RETRY) + 1))); \
+	    echo "ERROR: Retry to generate ${PWD}/docker-image/${DOCKERFILE}/Gemfile.lock after a while"; \
+	    if [ $${RETRY} -gt 3 ]; then \
+	      echo "ERROR: Give up retrying to generate ${PWD}/docker-image/${DOCKERFILE}/Gemfile.lock"; \
+	      exit 1; \
+	    fi; \
+	    sleep 10; \
+	  fi; \
+	done
 
 # Generate Gemfile and Gemfile.lock from template for all supported Docker images.
 #
@@ -330,7 +345,7 @@ prometheus.conf-all:
 
 README.md: templates/README.md.erb
 	docker run --rm -i -v $(PWD)/templates/README.md.erb:/README.md.erb:ro \
-		ruby:alpine erb -U -T 1 \
+		ruby:$(RUBY_VERSION)-alpine erb -U -T 1 \
 	                all_images='$(ALL_IMAGES)' \
 		/README.md.erb > README.md
 
@@ -370,7 +385,7 @@ post-checkout-hook:
 	if [ -n "$(findstring /arm64/,$(DOCKERFILE))" ]; then \
 		mkdir -p docker-image/$(DOCKERFILE)/hooks; \
 		docker run --rm -i -v $(PWD)/templates/post_checkout.erb:/post_checkout.erb:ro \
-			ruby:alpine erb -U \
+			ruby:$(RUBY_VERSION)-alpine erb -U \
 				dockerfile='$(DOCKERFILE)' \
 			/post_checkout.erb > docker-image/$(DOCKERFILE)/hooks/post_checkout ; \
 	fi
@@ -397,7 +412,7 @@ post-checkout-hook-all:
 post-push-hook:
 	mkdir -p docker-image/$(DOCKERFILE)/hooks
 	docker run --rm -i -v $(PWD)/templates/post_push.erb:/post_push.erb:ro \
-		ruby:alpine erb -U \
+		ruby:$(RUBY_VERSION)-alpine erb -U \
 			image_tags='$(TAGS)' \
 		/post_push.erb > docker-image/$(DOCKERFILE)/hooks/post_push
 
