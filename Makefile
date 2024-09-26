@@ -52,7 +52,11 @@ ARM64_IMAGES := \
 	v1.17/arm64/debian-kinesis:v1.17.1-debian-kinesis-arm64-1.0,v1.17-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-0.02
+ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-2.04
+
+GPR_OWNER=epimorphics
+GITHUB_TOKEN=.github-token
+PAT?=$(shell read -p 'Github access token:' TOKEN; echo $$TOKEN)
 
 comma := ,
 empty :=
@@ -92,7 +96,9 @@ echo-all-images:
 # Usage:
 #	make image [no-cache=(yes|no)] [DOCKERFILE=] [VERSION=]
 image:
-	docker build $(no-cache-arg) -t $(IMAGE_NAME):$(VERSION) docker-image/$(DOCKERFILE)
+	docker build $(no-cache-arg) -t $(IMAGE_NAME):$(VERSION) docker-image/$(DOCKERFILE) \
+		--build-arg BUNDLE_RUBYGEMS__PKG__GITHUB__COM=${GPR_OWNER}:`cat ${GITHUB_TOKEN}`
+
 
 parsed-tags = $(subst $(comma), $(space), $(TAGS))
 
@@ -140,13 +146,15 @@ release-all:
 #
 # Usage:
 #	make src [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
-src: dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
+src: auth dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
+
+auth: ${GITHUB_TOKEN}
 
 # Generate sources for all supported Docker images.
 #
 # Usage:
 #	make src-all
-src-all: README.md
+src-all: auth README.md
 	(set -e ; $(foreach img,$(ALL_IMAGES), \
 		make src \
 			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
@@ -191,15 +199,19 @@ dockerfile:
 dockerfile-all:
 	make each-image TARGET=dockerfile
 
+${GITHUB_TOKEN}:
+	@echo ${PAT} > ${GITHUB_TOKEN}
+
 # Generate Gemfile and Gemfile.lock from template.
 #
 # Usage:
 #	make gemfile [DOCKERFILE=] [VERSION=]
-gemfile:
+gemfile: ${GITHUB_TOKEN}
 	make container-image-template FILE=Gemfile
 	RETRY=1; \
 	while [ $${RETRY} -ge 1 ] ; do \
 	  docker run --rm -i -v $(PWD)/docker-image/$(DOCKERFILE)/Gemfile:/Gemfile:ro \
+	  	-e BUNDLE_RUBYGEMS__PKG__GITHUB__COM=${GPR_OWNER}:`cat ${GITHUB_TOKEN}` \
 		ruby:$(RUBY_VERSION)-alpine sh -c "apk add --no-cache --quiet git && bundle lock --print --remove-platform x86_64-linux-musl --add-platform ruby" > docker-image/${DOCKERFILE}/Gemfile.lock; \
 	  if [ $$? -eq 0 ]; then \
 	    RETRY=0; \

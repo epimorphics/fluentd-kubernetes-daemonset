@@ -11,11 +11,12 @@ ENV GEM_PATH /fluentd/vendor/bundle/ruby/3.2.0
 ENV GEM_HOME /fluentd/vendor/bundle/ruby/3.2.0
 # skip runtime bundler installation
 ENV FLUENTD_DISABLE_BUNDLER_INJECTION 1
+ARG BUNDLE_RUBYGEMS__PKG__GITHUB__COM
 
 COPY Gemfile* /fluentd/
 RUN buildDeps="sudo autoconf automake libtool make gcc g++ libc-dev libffi-dev curl build-essential libgeoip-dev libmaxminddb-dev" \
   runtimeDeps="" \
-      && apt-get update \
+     && apt-get update \
      && apt-get upgrade -y \
      && apt-get install \
      -y --no-install-recommends \

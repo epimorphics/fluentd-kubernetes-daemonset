@@ -17,6 +17,13 @@ gem "fluent-plugin-s3", "~> 1.7.0"
 
 ## New Version
 
+From version 1.17 the plugin epimorphics/fluent-plugin-flatten_filter is included, so ensure the following is present in `templates/Gemfile.erb` and authentication to Github Ruby Package Registry is required.
+```
+source "https://rubygems.pkg.github.com/epimorphics" do
+  gem "fluent-plugin-flatten_filter", "~> 1"
+end
+```
+
 ### Update the `Makefile`.
 
 Edit:
@@ -29,7 +36,7 @@ ALL_IMAGES :=  <version>/debian-s3elasticsearch8:<version>-debian-s3elasticsearc
 ## Create the Dockerfile etc
 
 ```
-make src-all
+PAT=<github personal access token> make src-all
 ```
 
 ## Build the Docker image

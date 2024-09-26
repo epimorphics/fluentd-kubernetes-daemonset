@@ -30,7 +30,7 @@ See also dockerhub tags page: https://hub.docker.com/r/fluent/fluentd-kubernetes
 
 ##### x86_64 images
 - `S3elasticsearch8` [Dockerfile](docker-image/v1.17/debian-s3elasticsearch8/Dockerfile)
-  - `docker pull fluent/fluentd-kubernetes-daemonset:v1.17.1-debian-s3elasticsearch8-0.02`
+  - `docker pull fluent/fluentd-kubernetes-daemonset:v1.17.1-debian-s3elasticsearch8-2.04`
 
 ##### arm64 images
 
