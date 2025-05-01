@@ -6,7 +6,7 @@
 
 ### Resolve conflicts
 
-`templates/Genfile.erb`: find the `case target` and move the `s3` clause to an `if`, eg:
+`templates/Gemfile.erb`: find the `case target` and move the `s3` clause to an `if`, eg:
 
 ```
 <% if target =~/\As3/ %>
