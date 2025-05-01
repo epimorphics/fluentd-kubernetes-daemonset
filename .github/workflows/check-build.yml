@@ -4,7 +4,7 @@ on:
   pull_request:
 
 env:
-  REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS }}/fluentd-kubernetes-daemonset
+  REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS || github.repository_owner }}/fluentd-kubernetes-daemonset
 jobs:
   define-matrix:
     runs-on: ubuntu-latest
@@ -48,15 +48,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Setup tags
         run: |
           set -x
           component=${{ matrix.component }}
-          echo "CONTEXT=docker-image/v1.17/${component}" >> ${GITHUB_ENV}
+          branch=$(make echo-all-images | cut -d '/' -f1)
+          echo "CONTEXT=docker-image/${branch}/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
             case $target in
               *$component-amd64*)
@@ -79,28 +76,23 @@ jobs:
           outputs: oci-mediatypes=false
   arm64:
     needs: define-matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
         component: ${{ fromJSON(needs.define-matrix.outputs.components) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/arm64
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - name: Setup tags
         run: |
           set -x
           component=${{ matrix.component }}
-          echo "CONTEXT=docker-image/v1.17/arm64/${component}" >> ${GITHUB_ENV}
+          branch=$(make echo-all-images | cut -d '/' -f1)
+          echo "CONTEXT=docker-image/${branch}/arm64/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
             case $target in
               *$component-arm64*)

@@ -67,7 +67,8 @@ jobs:
         run: |
           set -x
           component=${{ matrix.component }}
-          echo "CONTEXT=docker-image/v1.17/${component}" >> ${GITHUB_ENV}
+          branch=$(make echo-all-images | cut -d '/' -f1)
+          echo "CONTEXT=docker-image/${branch}/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
             case $target in
               *$component-amd64*)
@@ -90,15 +91,13 @@ jobs:
           outputs: oci-mediatypes=false
   arm64:
     needs: define-matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     strategy:
       fail-fast: false
       matrix:
         component: ${{ fromJSON(needs.define-matrix.outputs.components) }}
     steps:
       - uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
@@ -111,7 +110,8 @@ jobs:
         run: |
           set -x
           component=${{ matrix.component }}
-          echo "CONTEXT=docker-image/v1.17/arm64/${component}" >> ${GITHUB_ENV}
+          branch=$(make echo-all-images | cut -d '/' -f1)
+          echo "CONTEXT=docker-image/${branch}/arm64/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
             case $target in
               *$component-arm64*)

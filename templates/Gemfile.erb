@@ -8,7 +8,7 @@ source "https://rubygems.org"
 
 gem "fluentd", "<%= fluentd_ver %>"
 gem "oj", "~> 3.15.0"
-gem "rexml", "~> 3.2.5"
+gem "rexml", "~> 3.3.6"
 gem "fluent-plugin-multi-format-parser", "~> 1.0.0"
 gem "fluent-plugin-concat", "~> 2.5.0"
 gem "fluent-plugin-grok-parser", "~> 2.6.2"
@@ -73,10 +73,10 @@ gem "fluent-plugin-kinesis", "~> 3.4.0"
 <% when "splunkhec" %>
 gem "fluent-plugin-splunk-enterprise"
 <% end %>
-gem "fluent-plugin-kubernetes_metadata_filter", "~> 3.5.0"
+gem "fluent-plugin-kubernetes_metadata_filter", "~> 3.6.0"
 <% if !is_alpine %>
 gem "ffi"
-gem "fluent-plugin-systemd", "~> 1.0.5"
+gem "fluent-plugin-systemd", "~> 1.1.0"
 <% end %>
 
 source "https://rubygems.pkg.github.com/epimorphics" do

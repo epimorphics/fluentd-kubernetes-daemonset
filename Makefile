@@ -3,53 +3,49 @@
 # Images and description on Docker Hub will be automatically rebuilt on
 # pushes to `master` branch of this repo and on updates of parent images.
 #
-# Note! Docker Hub `post_push` hook must be always up-to-date with values
-# specified in current Makefile. To update it just use:
-#	make post-push-hook-all
-#
 # It's still possible to build, tag and push images manually. Just use:
 #	make release-all
 
 IMAGE_NAME := fluent/fluentd-kubernetes
 X86_IMAGES := \
-	v1.17/debian-azureblob:v1.17.1-debian-azureblob-amd64-1.0,v1.17-debian-azureblob-amd64-1 \
-	v1.17/debian-elasticsearch8:v1.17.1-debian-elasticsearch8-amd64-1.0,v1.17-debian-elasticsearch8-amd64-1 \
-	v1.17/debian-elasticsearch7:v1.17.1-debian-elasticsearch7-amd64-1.0,v1.17-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
-	v1.17/debian-opensearch:v1.17.1-debian-opensearch-amd64-1.0,v1.17-debian-opensearch-amd64-1 \
-	v1.17/debian-loggly:v1.17.1-debian-loggly-amd64-1.0,v1.17-debian-loggly-amd64-1 \
-	v1.17/debian-logentries:v1.17.1-debian-logentries-amd64-1.0,v1.17-debian-logentries-amd64-1 \
-	v1.17/debian-cloudwatch:v1.17.1-debian-cloudwatch-amd64-1.0,v1.17-debian-cloudwatch-amd64-1 \
-	v1.17/debian-s3:v1.17.1-debian-s3-amd64-1.0,v1.17-debian-s3-amd64-1 \
-	v1.17/debian-syslog:v1.17.1-debian-syslog-amd64-1.0,v1.17-debian-syslog-amd64-1 \
-	v1.17/debian-forward:v1.17.1-debian-forward-amd64-1.0,v1.17-debian-forward-amd64-1 \
-	v1.17/debian-gcs:v1.17.1-debian-gcs-amd64-1.0,v1.17-debian-gcs-amd64-1 \
-	v1.17/debian-graylog:v1.17.1-debian-graylog-amd64-1.0,v1.17-debian-graylog-amd64-1 \
-	v1.17/debian-papertrail:v1.17.1-debian-papertrail-amd64-1.0,v1.17-debian-papertrail-amd64-1 \
-	v1.17/debian-logzio:v1.17.1-debian-logzio-amd64-1.0,v1.17-debian-logzio-amd64-1 \
-	v1.17/debian-kafka:v1.17.1-debian-kafka-amd64-1.0,v1.17-debian-kafka-amd64-1 \
-	v1.17/debian-kafka2:v1.17.1-debian-kafka2-amd64-1.0,v1.17-debian-kafka2-amd64-1 \
-	v1.17/debian-kinesis:v1.17.1-debian-kinesis-amd64-1.0,v1.17-debian-kinesis-amd64-1
+	v1.18/debian-azureblob:v1.18.0-debian-azureblob-amd64-1.4,v1.18-debian-azureblob-amd64-1 \
+	v1.18/debian-elasticsearch8:v1.18.0-debian-elasticsearch8-amd64-1.4,v1.18-debian-elasticsearch8-amd64-1 \
+	v1.18/debian-elasticsearch7:v1.18.0-debian-elasticsearch7-amd64-1.4,v1.18-debian-elasticsearch7-amd64-1,v1-debian-elasticsearch-amd64 \
+	v1.18/debian-opensearch:v1.18.0-debian-opensearch-amd64-1.4,v1.18-debian-opensearch-amd64-1 \
+	v1.18/debian-loggly:v1.18.0-debian-loggly-amd64-1.4,v1.18-debian-loggly-amd64-1 \
+	v1.18/debian-logentries:v1.18.0-debian-logentries-amd64-1.4,v1.18-debian-logentries-amd64-1 \
+	v1.18/debian-cloudwatch:v1.18.0-debian-cloudwatch-amd64-1.4,v1.18-debian-cloudwatch-amd64-1 \
+	v1.18/debian-s3:v1.18.0-debian-s3-amd64-1.4,v1.18-debian-s3-amd64-1 \
+	v1.18/debian-syslog:v1.18.0-debian-syslog-amd64-1.4,v1.18-debian-syslog-amd64-1 \
+	v1.18/debian-forward:v1.18.0-debian-forward-amd64-1.4,v1.18-debian-forward-amd64-1 \
+	v1.18/debian-gcs:v1.18.0-debian-gcs-amd64-1.4,v1.18-debian-gcs-amd64-1 \
+	v1.18/debian-graylog:v1.18.0-debian-graylog-amd64-1.4,v1.18-debian-graylog-amd64-1 \
+	v1.18/debian-papertrail:v1.18.0-debian-papertrail-amd64-1.4,v1.18-debian-papertrail-amd64-1 \
+	v1.18/debian-logzio:v1.18.0-debian-logzio-amd64-1.4,v1.18-debian-logzio-amd64-1 \
+	v1.18/debian-kafka:v1.18.0-debian-kafka-amd64-1.4,v1.18-debian-kafka-amd64-1 \
+	v1.18/debian-kafka2:v1.18.0-debian-kafka2-amd64-1.4,v1.18-debian-kafka2-amd64-1 \
+	v1.18/debian-kinesis:v1.18.0-debian-kinesis-amd64-1.4,v1.18-debian-kinesis-amd64-1
 
 #	<Dockerfile>:<version>,<tag1>,<tag2>,...
 
 ARM64_IMAGES := \
-	v1.17/arm64/debian-azureblob:v1.17.1-debian-azureblob-arm64-1.0,v1.17-debian-azureblob-arm64-1 \
-	v1.17/arm64/debian-elasticsearch8:v1.17.1-debian-elasticsearch8-arm64-1.0,v1.17-debian-elasticsearch8-arm64-1 \
-	v1.17/arm64/debian-elasticsearch7:v1.17.1-debian-elasticsearch7-arm64-1.0,v1.17-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
-	v1.17/arm64/debian-opensearch:v1.17.1-debian-opensearch-arm64-1.0,v1.17-debian-opensearch-arm64-1 \
-	v1.17/arm64/debian-loggly:v1.17.1-debian-loggly-arm64-1.0,v1.17-debian-loggly-arm64-1 \
-	v1.17/arm64/debian-logentries:v1.17.1-debian-logentries-arm64-1.0,v1.17-debian-logentries-arm64-1 \
-	v1.17/arm64/debian-cloudwatch:v1.17.1-debian-cloudwatch-arm64-1.0,v1.17-debian-cloudwatch-arm64-1 \
-	v1.17/arm64/debian-s3:v1.17.1-debian-s3-arm64-1.0,v1.17-debian-s3-arm64-1 \
-	v1.17/arm64/debian-syslog:v1.17.1-debian-syslog-arm64-1.0,v1.17-debian-syslog-arm64-1 \
-	v1.17/arm64/debian-forward:v1.17.1-debian-forward-arm64-1.0,v1.17-debian-forward-arm64-1 \
-	v1.17/arm64/debian-gcs:v1.17.1-debian-gcs-arm64-1.0,v1.17-debian-gcs-arm64-1 \
-	v1.17/arm64/debian-graylog:v1.17.1-debian-graylog-arm64-1.0,v1.17-debian-graylog-arm64-1 \
-	v1.17/arm64/debian-papertrail:v1.17.1-debian-papertrail-arm64-1.0,v1.17-debian-papertrail-arm64-1 \
-	v1.17/arm64/debian-logzio:v1.17.1-debian-logzio-arm64-1.0,v1.17-debian-logzio-arm64-1 \
-	v1.17/arm64/debian-kafka:v1.17.1-debian-kafka-arm64-1.0,v1.17-debian-kafka-arm64-1 \
-	v1.17/arm64/debian-kafka2:v1.17.1-debian-kafka2-arm64-1.0,v1.17-debian-kafka2-arm64-1 \
-	v1.17/arm64/debian-kinesis:v1.17.1-debian-kinesis-arm64-1.0,v1.17-debian-kinesis-arm64-1
+	v1.18/arm64/debian-azureblob:v1.18.0-debian-azureblob-arm64-1.4,v1.18-debian-azureblob-arm64-1 \
+	v1.18/arm64/debian-elasticsearch8:v1.18.0-debian-elasticsearch8-arm64-1.4,v1.18-debian-elasticsearch8-arm64-1 \
+	v1.18/arm64/debian-elasticsearch7:v1.18.0-debian-elasticsearch7-arm64-1.4,v1.18-debian-elasticsearch7-arm64-1,v1-debian-elasticsearch-arm64 \
+	v1.18/arm64/debian-opensearch:v1.18.0-debian-opensearch-arm64-1.4,v1.18-debian-opensearch-arm64-1 \
+	v1.18/arm64/debian-loggly:v1.18.0-debian-loggly-arm64-1.4,v1.18-debian-loggly-arm64-1 \
+	v1.18/arm64/debian-logentries:v1.18.0-debian-logentries-arm64-1.4,v1.18-debian-logentries-arm64-1 \
+	v1.18/arm64/debian-cloudwatch:v1.18.0-debian-cloudwatch-arm64-1.4,v1.18-debian-cloudwatch-arm64-1 \
+	v1.18/arm64/debian-s3:v1.18.0-debian-s3-arm64-1.4,v1.18-debian-s3-arm64-1 \
+	v1.18/arm64/debian-syslog:v1.18.0-debian-syslog-arm64-1.4,v1.18-debian-syslog-arm64-1 \
+	v1.18/arm64/debian-forward:v1.18.0-debian-forward-arm64-1.4,v1.18-debian-forward-arm64-1 \
+	v1.18/arm64/debian-gcs:v1.18.0-debian-gcs-arm64-1.4,v1.18-debian-gcs-arm64-1 \
+	v1.18/arm64/debian-graylog:v1.18.0-debian-graylog-arm64-1.4,v1.18-debian-graylog-arm64-1 \
+	v1.18/arm64/debian-papertrail:v1.18.0-debian-papertrail-arm64-1.4,v1.18-debian-papertrail-arm64-1 \
+	v1.18/arm64/debian-logzio:v1.18.0-debian-logzio-arm64-1.4,v1.18-debian-logzio-arm64-1 \
+	v1.18/arm64/debian-kafka:v1.18.0-debian-kafka-arm64-1.4,v1.18-debian-kafka-arm64-1 \
+	v1.18/arm64/debian-kafka2:v1.18.0-debian-kafka2-arm64-1.4,v1.18-debian-kafka2-arm64-1 \
+	v1.18/arm64/debian-kinesis:v1.18.0-debian-kinesis-arm64-1.4,v1.18-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
 ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-2.04
@@ -149,7 +145,6 @@ release-all:
 src: auth dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
 
 auth: ${GITHUB_TOKEN}
-
 # Generate sources for all supported Docker images.
 #
 # Usage:
@@ -383,64 +378,6 @@ plugins-all:
 			DOCKERFILE=$(word 1,$(subst :, ,$(img))) ; \
 	))
 
-# Create `post_checkout` Docker Hub hook.
-#
-# When Docker Hub triggers automated build, the `post_checkout` hook is called
-# after the Git repo is checked out. This can be used to set up prerequisites
-# for, for example, cross-platform builds.
-# See details:
-# https://docs.docker.com/docker-cloud/builds/advanced/#build-hook-examples
-#
-# Usage:
-#	make post-checkout-hook [DOCKERFILE=]
-post-checkout-hook:
-	if [ -n "$(findstring /arm64/,$(DOCKERFILE))" ]; then \
-		mkdir -p docker-image/$(DOCKERFILE)/hooks; \
-		docker run --rm -i -v $(PWD)/templates/post_checkout.erb:/post_checkout.erb:ro \
-			ruby:$(RUBY_VERSION)-alpine erb -U \
-				dockerfile='$(DOCKERFILE)' \
-			/post_checkout.erb > docker-image/$(DOCKERFILE)/hooks/post_checkout ; \
-	fi
-
-
-# Create `post_push` Docker Hub hook for all supported Docker images.
-#
-# Usage:
-#	make post-checkout-hook-all
-post-checkout-hook-all:
-	make each-image TARGET=post-checkout-hook
-
-# Create `post_push` Docker Hub hook.
-#
-# When Docker Hub triggers automated build all the tags defined in `post_push`
-# hook will be assigned to built image. It allows to link the same image with
-# different tags, and not to build identical image for each tag separately.
-# See details:
-# http://windsock.io/automated-docker-image-builds-with-multiple-tags
-#
-# Usage:
-#	make post-push-hook [DOCKERFILE=] [TAGS=t1,t2,...]
-
-post-push-hook:
-	mkdir -p docker-image/$(DOCKERFILE)/hooks
-	docker run --rm -i -v $(PWD)/templates/post_push.erb:/post_push.erb:ro \
-		ruby:$(RUBY_VERSION)-alpine erb -U \
-			image_tags='$(TAGS)' \
-		/post_push.erb > docker-image/$(DOCKERFILE)/hooks/post_push
-
-# Create `post_push` Docker Hub hook for all supported Docker images.
-#
-# Usage:
-#	make post-push-hook-all
-
-post-push-hook-all:
-	(set -e ; $(foreach img,$(ALL_IMAGES), \
-		make post-push-hook \
-			DOCKERFILE=$(word 1,$(subst :, ,$(img))) \
-			TAGS=$(word 2,$(subst :, ,$(img))) ; \
-	))
-
-
 .PHONY: image tags push \
         release release-all \
         src src-all \
@@ -468,6 +405,4 @@ post-push-hook-all:
         tail_container_parse.conf tail_container_parse.conf-all \
         prometheus.conf prometheus.conf-all \
         plugins plugins-all \
-        post-checkout-hook post-checkout-hook-all \
-        post-push-hook post-push-hook-all \
 	README.md
