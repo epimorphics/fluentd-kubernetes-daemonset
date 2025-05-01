@@ -48,7 +48,7 @@ ARM64_IMAGES := \
 	v1.18/arm64/debian-kinesis:v1.18.0-debian-kinesis-arm64-1.4,v1.18-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES :=  v1.17/debian-s3elasticsearch8:v1.17.1-debian-s3elasticsearch8-2.04
+ALL_IMAGES :=  v1.18/debian-s3elasticsearch8:v1.18.0-debian-s3elasticsearch8-0.01
 
 GPR_OWNER=epimorphics
 GITHUB_TOKEN=.github-token
@@ -142,7 +142,7 @@ release-all:
 #
 # Usage:
 #	make src [DOCKERFILE=] [VERSION=] [TAGS=t1,t2,...]
-src: auth dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins post-push-hook post-checkout-hook entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
+src: auth dockerfile gemfile fluent.conf systemd.conf prometheus.conf kubernetes.conf plugins entrypoint.sh cluster-autoscaler.conf containers.conf docker.conf etcd.conf glbc.conf kube-apiserver-audit.conf kube-apiserver.conf kube-controller-manager.conf kube-proxy.conf kube-scheduler.conf kubelet.conf rescheduler.conf salt.conf startupscript.conf tail_container_parse.conf .github/dependabot.yml
 
 auth: ${GITHUB_TOKEN}
 # Generate sources for all supported Docker images.
