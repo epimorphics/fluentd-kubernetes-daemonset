@@ -48,7 +48,7 @@ ARM64_IMAGES := \
 	v1.18/arm64/debian-kinesis:v1.18.0-debian-kinesis-arm64-1.4,v1.18-debian-kinesis-arm64-1
 
 # ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
-ALL_IMAGES :=  v1.18/debian-s3elasticsearch8:v1.18.0-debian-s3elasticsearch8-0.01
+ALL_IMAGES :=  v1.18/debian-s3elasticsearch8:v1.18.0-debian-s3elasticsearch8-0.02
 
 GPR_OWNER=epimorphics
 GITHUB_TOKEN=.github-token
