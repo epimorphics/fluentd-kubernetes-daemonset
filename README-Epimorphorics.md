@@ -4,54 +4,57 @@
    git pull upstream master
 ```
 
-### Resolve conflicts
 
-`templates/Gemfile.erb`: find the `case target` and move the `s3` clause to an `if`, eg:
+## `s3elasticsearch9`
+
+### Edit `templates/Gemfile.erb`
+
+`templates/Gemfile.erb`: find the `case target` and `s3elasticsearch9` as product of `s3` and `elasticsearch9`
 
 ```
-<% if target =~/\As3/ %>
-gem "aws-sdk-s3", "~> 1.101"
-gem "fluent-plugin-s3", "~> 1.7.0"
-<% end %>
++  when 's3elasticsearch9'
++    runtime_deps << %w[libcurl4t64]
++    build_deps << %w[build-essential curl libcurl4-openssl-dev]
+   end
 ```
 
-## New Version
+change `if target = 's3'` to `if target == 's3' || target == 's3elasticsearch9'`
 
-From version 1.17 the `plugin epimorphics/fluent-plugin-flatten_filter` is included, so ensure the following is present in `templates/Gemfile.erb` and authentication to Github Ruby Package Registry is required.
 ```
-source "https://rubygems.pkg.github.com/epimorphics" do
-  gem "fluent-plugin-flatten_filter", "~> 1"
-end
+-<% if target == "s3" %>
++<% if target == "s3" || target == "s3elasticsearch9" %>
 ```
 
 ### Update the `Makefile`.
 
 Edit:
 ```
-ALL_IMAGES :=  <version>/debian-s3elasticsearch8:<version>-debian-s3elasticsearch8-<subversion>
+ALL_IMAGES :=  <version>/debian-s3elasticsearch9:<version>-debian-s3elasticsearch9-<subversion>
 ```
 
 ### Create plugins directory
 
 ```
- touch plugins/<version>/s3elasticsearch8/.gitkeep
+mkdir -p plugins/<version>/s3elasticsearch9
+touch plugins/<version>/s3elasticsearch9/.gitkeep
 ```
 
-## Create the Dockerfile etc
+### Create the `docker-image` directory
 
 ```
-PAT=<github personal access token> make src-all
+mkdir -p docker-image/<version>/debian-s3elasticsearch9
+echo '*' > docker-image/<version>/debian-s3elasticsearch9/.gitignore
 ```
 
-## Build the Docker image
+## Build the src and new image
 
 ```
-make image
+make src image
 ```
 
 # Retag and Publish
 
 ```
-docker tag <image id> 293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes-daemonset:<version>-debian-s3elasticsearch8-<subversion>
-docker push 293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes-daemonset:<version>-debian-s3elasticsearch8-<subversion>
+docker tag <image id> 293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes-daemonset:<version>-debian-s3elasticsearch9-<subversion>
+docker push 293385631482.dkr.ecr.eu-west-1.amazonaws.com/epimorphics/fluentd-kubernetes-daemonset:<version>-debian-s3elasticsearch9-<subversion>
 ```
