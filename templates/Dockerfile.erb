@@ -38,6 +38,9 @@ COPY Gemfile* /fluentd/
   when 'elasticsearch8', 'elasticsearch9', 'opensearch'
     runtime_deps << %w[libcurl4t64]
     build_deps << %w[build-essential libcurl4-openssl-dev]
+  when 's3elasticsearch9'
+    runtime_deps << %w[libcurl4t64]
+    build_deps << %w[build-essential curl libcurl4-openssl-dev]
   end
 %>
 RUN buildDeps="<%= build_deps.join(' ') %><% if requires_git %> git<% end %>" \
@@ -49,7 +52,7 @@ RUN buildDeps="<%= build_deps.join(' ') %><% if requires_git %> git<% end %>" \
      $buildDeps $runtimeDeps net-tools \
     && bundle config silence_root_warning true<% if target == "azureblob" %> && bundle config build.nokogiri --use-system-libraries<% end %> \
     && bundle install --gemfile=/fluentd/Gemfile --path=/fluentd/vendor/bundle \
-<% if target == "s3" %>
+<% if target == "s3" || target == "s3elasticsearch9" %>
     && curl -sL -o columnify_0.1.0_Linux_x86_64.tar.gz https://github.com/reproio/columnify/releases/download/v0.1.0/columnify_0.1.0_Linux_x86_64.tar.gz \
     && tar xf columnify_0.1.0_Linux_x86_64.tar.gz \
     && rm LICENSE README.md columnify_0.1.0_Linux_x86_64.tar.gz \

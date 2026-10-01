@@ -32,6 +32,12 @@ gem "faraday-typhoeus", "~> 1.1.0"
 gem "elasticsearch", "~> 9.0"
 gem "fluent-plugin-elasticsearch", "~> 6.0.0"
 gem "fluent-plugin-dedot_filter", "~> 1.0"
+<% when "s3elasticsearch9" %>
+gem "aws-sdk-s3", "~> 1.197"
+gem "fluent-plugin-s3", "~> 1.8.3"
+gem "elasticsearch", "~> 9.0"
+gem "fluent-plugin-elasticsearch", "~> 6.0.0"
+gem "fluent-plugin-dedot_filter", "~> 1.0"
 <% when "opensearch" %>
 gem "fluent-plugin-opensearch", "~> 1.1.5"
 gem "faraday-typhoeus", "~> 1.1.0"

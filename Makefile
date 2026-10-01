@@ -51,7 +51,8 @@ ARM64_IMAGES := \
 	v1.19/arm64/debian-s3:v1.19.3-debian-s3-arm64-1.1,v1.19-debian-s3-arm64-1 \
 	v1.19/arm64/debian-syslog:v1.19.3-debian-syslog-arm64-1.1,v1.19-debian-syslog-arm64-1
 
-ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
+# ALL_IMAGES := $(X86_IMAGES) $(ARM64_IMAGES)
+ALL_IMAGES := v1.19/debian-s3elasticsearch9:v1.19.3-debian-s3elasticsearch9-1.00,v1.19-debian-s3elasticsearch9-1
 
 comma := ,
 empty :=
